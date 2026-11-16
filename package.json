@@ -1,1 +1,0 @@
-{"name":"xuanshu-sanyuan-pwa","version":"2.0.0","private":true,"type":"module","scripts":{"start":"node server.mjs","check":"node --check server.mjs"},"dependencies":{"@google/genai":"latest","express":"^5.1.0","helmet":"^8.1.0","zod":"^4.1.0","lunar-javascript":"^1.7.7","astronomy-engine":"^2.1.19","iztro":"^2.5.3"}}
