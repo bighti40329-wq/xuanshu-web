@@ -1,0 +1,17 @@
+{
+  "name": "xuanshu-local-first",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check server.mjs"
+  },
+  "dependencies": {
+    "astronomy-engine": "2.1.19",
+    "express": "5.1.0",
+    "helmet": "8.1.0",
+    "iztro": "2.6.5",
+    "lunar-javascript": "1.7.7"
+  }
+}
