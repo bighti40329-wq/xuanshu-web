@@ -1,0 +1,3038 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>玄樞三垣｜八字 × 紫微 × 星座 三盤合參命理台</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Serif TC & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@500;600;700;900&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Noto Serif TC"', 'serif'],
+            sans: ['"Noto Sans TC"', 'sans-serif'],
+          },
+          colors: {
+            paper: {
+              50: '#FCF9F2',
+              100: '#FAF6EE',
+              200: '#F3ECE0',
+              300: '#E3D8C5',
+            },
+            ink: {
+              900: '#1F2421',
+              700: '#4A443F',
+              500: '#787067',
+              300: '#A89F94',
+            },
+            vermilion: {
+              600: '#B83B2A',
+              700: '#9A2E20',
+              50: '#FBF1EF',
+            },
+            gold: {
+              500: '#C59B38',
+              600: '#9E7923',
+              100: '#F7F1E3',
+            },
+            ziwei: {
+              950: '#1E112A',
+              900: '#2D1B3D',
+              800: '#3E2654',
+              700: '#533470',
+              gold: '#D4AF37',
+              light: '#F3E6C0',
+            },
+            astral: {
+              950: '#0F1423',
+              900: '#161D31',
+              800: '#212B47',
+              gold: '#D4AF37',
+              light: '#F4E8C1',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* 新中式宣紙肌理與三垣微光漸層背景 */
+    body {
+      background-color: #FAF6EE;
+      background-image:
+        radial-gradient(circle at 10% 6%, rgba(197, 155, 56, 0.1) 0%, transparent 38%),
+        radial-gradient(circle at 88% 14%, rgba(45, 27, 61, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 50% 94%, rgba(22, 29, 49, 0.06) 0%, transparent 48%);
+      color: #1F2421;
+      font-family: 'Noto Sans TC', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* 宣紙卡片（八字與主容器） */
+    .zen-card {
+      background: rgba(252, 249, 242, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(197, 155, 56, 0.34);
+      box-shadow: 0 10px 30px -10px rgba(31, 36, 33, 0.07);
+    }
+
+    /* 帝王紫微星垣卡片 */
+    .ziwei-card {
+      background: linear-gradient(155deg, #2D1B3D 0%, #1E112A 100%);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      box-shadow: 0 14px 34px -10px rgba(30, 17, 42, 0.38);
+      color: #F8FAFC;
+    }
+
+    /* 西方占星深靛夜藍卡片 */
+    .celestial-card {
+      background: linear-gradient(155deg, #161D31 0%, #0F1423 100%);
+      border: 1px solid rgba(212, 175, 55, 0.42);
+      box-shadow: 0 14px 34px -10px rgba(15, 20, 35, 0.38);
+      color: #F8FAFC;
+    }
+
+    /* 傳統印章樣式 */
+    .seal-stamp {
+      border: 1.5px solid #B83B2A;
+      color: #B83B2A;
+      font-family: 'Noto Serif TC', serif;
+      letter-spacing: 0.12em;
+      box-shadow: inset 0 0 0 1px rgba(184, 59, 42, 0.22);
+    }
+
+    /* 旋轉與淡入動畫 */
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes reverseSpin {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-spin-slow { animation: slowSpin 14s linear infinite; }
+    .animate-spin-reverse { animation: reverseSpin 22s linear infinite; }
+    .animate-fade-up { animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+    /* 自訂捲軸 */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #FAF6EE; }
+    ::-webkit-scrollbar-thumb { background: #D4C8B4; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #C59B38; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-vermilion-600 selection:text-white">
+
+  <!-- ==================== 頂部導覽與本地命盤記憶工具列 ==================== -->
+  <header class="w-full border-b border-gold-500/30 bg-paper-50/90 backdrop-blur-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- 品牌識別 -->
+      <div class="flex items-center gap-3">
+        <div class="seal-stamp px-2.5 py-1 rounded text-xs sm:text-sm font-bold select-none bg-vermilion-50/80">
+          玄樞三垣
+        </div>
+        <div>
+          <h1 class="font-serif text-base sm:text-xl font-bold tracking-wider text-ink-900 flex items-center gap-2">
+            八字 × 紫微 × 星座 三盤合參命理台
+            <span class="hidden xl:inline-block text-xs font-sans font-normal px-2.5 py-0.5 rounded-full bg-gold-100 text-gold-600 border border-gold-500/30">
+              子平八字 · 紫微斗數 · 西洋占星 · AI 三垣推演
+            </span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- localStorage 本地命盤記憶控制列 -->
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <button
+          id="saveChartBtn"
+          type="button"
+          onclick="saveCurrentChartToStorage()"
+          disabled
+          class="px-2.5 py-1.5 rounded-lg border border-gold-500/40 bg-white/80 text-ink-400 cursor-not-allowed transition flex items-center gap-1"
+          title="排盤完成後可將命盤記憶於瀏覽器"
+        >
+          <span>💾 儲存本命盤</span>
+        </button>
+        <button
+          id="loadChartBtn"
+          type="button"
+          onclick="loadSavedChartFromStorage()"
+          class="px-2.5 py-1.5 rounded-lg border border-ziwei-700/40 bg-ziwei-900 text-ziwei-light hover:bg-ziwei-800 transition flex items-center gap-1.5 shadow-sm"
+        >
+          <span>📂 載入已存命盤</span>
+          <span id="savedChartBadge" class="hidden px-1.5 py-0.2 rounded bg-ziwei-gold text-ziwei-950 font-bold text-[10px]">有記憶</span>
+        </button>
+        <button
+          id="clearChartBtn"
+          type="button"
+          onclick="clearSavedChartStorage()"
+          class="hidden px-2.5 py-1.5 rounded-lg border border-paper-300 bg-paper-100 hover:bg-vermilion-50 hover:text-vermilion-700 hover:border-vermilion-600/30 text-ink-600 transition"
+          title="清除本地儲存的命盤紀錄"
+        >
+          <span>🗑️ 清除記憶</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 主內容容器 ==================== -->
+  <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-8">
+
+    <!-- 雅緻引言與一鍵範例測試橫幅 -->
+    <section class="text-center max-w-4xl mx-auto space-y-3 animate-fade-up">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-100/95 border border-gold-500/35 text-gold-600 text-xs font-medium tracking-wide">
+        <span>☯ 東方子平八字 × ✵ 紫微斗數星垣 × ✦ 西方古典占星 · 三盤交叉印證</span>
+      </div>
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-ink-900 tracking-wide leading-snug">
+        立四柱以定五行根基，布十二宮而觀星曜流轉
+      </h2>
+      <p class="text-sm sm:text-base text-ink-500 leading-relaxed">
+        支援國農曆自動換算、三柱彈性推命、時辰反推引導、2026–2030 五年流年時間軸、每日開運籤詩與雙人合盤。
+      </p>
+
+      <!-- 一鍵填入測試範例列 -->
+      <div class="pt-1 flex flex-wrap items-center justify-center gap-2.5 text-xs">
+        <span class="text-ink-500 font-medium">一鍵快速體驗範例：</span>
+        <button
+          type="button"
+          onclick="applyDemoPreset(1)"
+          class="px-3.5 py-1.5 rounded-full bg-white hover:bg-ziwei-900 hover:text-ziwei-light text-ink-800 border border-ziwei-900/30 shadow-sm transition flex items-center gap-1.5"
+        >
+          <span class="text-ziwei-gold">✵</span>
+          <span>範例一：1991 農曆四月廿五 卯時（完整三盤）</span>
+        </button>
+        <button
+          type="button"
+          onclick="applyDemoPreset(2)"
+          class="px-3.5 py-1.5 rounded-full bg-white hover:bg-astral-900 hover:text-astral-light text-ink-800 border border-astral-900/30 shadow-sm transition flex items-center gap-1.5"
+        >
+          <span class="text-vermilion-600">☯</span>
+          <span>範例二：1998 國曆10月14日（時辰不詳測試）</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== 第一部分：雙模式輸入表單區 ==================== -->
+    <section id="inputSection" class="zen-card rounded-2xl p-5 sm:p-8 space-y-6 animate-fade-up">
+
+      <!-- 測算模式切換 Tab（個人三盤精算 vs 雙人合盤配對） -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-paper-200 pb-5">
+        <div class="inline-flex p-1 rounded-xl bg-paper-200/90 border border-gold-500/25 w-full sm:w-auto">
+          <button
+            type="button"
+            id="modeSingleTab"
+            onclick="switchAnalysisMode('single')"
+            class="flex-1 sm:flex-initial px-5 py-2.5 rounded-lg text-sm font-serif font-bold transition bg-vermilion-600 text-white shadow-sm flex items-center justify-center gap-2"
+          >
+            <span>☯ 個人三盤精算</span>
+          </button>
+          <button
+            type="button"
+            id="modeSynastryTab"
+            onclick="switchAnalysisMode('synastry')"
+            class="flex-1 sm:flex-initial px-5 py-2.5 rounded-lg text-sm font-serif font-bold transition text-ink-700 hover:text-ink-900 flex items-center justify-center gap-2"
+          >
+            <span>💞 雙人合盤配對</span>
+          </button>
+        </div>
+
+        <p id="modeDescriptionHint" class="text-xs text-ink-500">
+          個人模式：同步推演八字四柱、紫微十二宮四化與西方星盤，並生成五年流年與開運籤詩。
+        </p>
+      </div>
+
+      <!-- ==================== 【模式 A：個人三盤精算表單】 ==================== -->
+      <div id="singleFormContainer" class="space-y-7">
+        <!-- 步驟 壹：命造性別與出生年月日 -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-2.5 border-b border-paper-200 pb-2.5">
+            <span class="w-6 h-6 rounded-full bg-vermilion-600 text-white text-xs font-bold flex items-center justify-center">壹</span>
+            <h3 class="font-serif text-lg font-bold text-ink-900">命造性別與出生年月日（國農曆自動換算）</h3>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+            <!-- 性別選擇（4欄） -->
+            <div class="lg:col-span-4 space-y-2">
+              <label class="block text-xs font-medium text-ink-600">命造性別（影響大運順逆與陰陽男女）</label>
+              <div class="grid grid-cols-2 gap-2.5">
+                <button type="button" data-gender="男 (乾造)" onclick="selectSingleGender(this)"
+                  class="single-gender-btn py-2.5 px-3 rounded-xl border text-sm font-medium transition flex items-center justify-center gap-1.5 border-vermilion-600 bg-vermilion-50 text-vermilion-700 shadow-sm">
+                  <span>♂</span><span>乾造（男）</span>
+                </button>
+                <button type="button" data-gender="女 (坤造)" onclick="selectSingleGender(this)"
+                  class="single-gender-btn py-2.5 px-3 rounded-xl border text-sm font-medium transition flex items-center justify-center gap-1.5 border-paper-300 bg-white/80 text-ink-700 hover:border-gold-500">
+                  <span>♀</span><span>坤造（女）</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 曆法切換與日期輸入（8欄） -->
+            <div class="lg:col-span-8 space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <label class="block text-xs font-medium text-ink-600">選擇輸入曆法（AI 自動校對節氣與星曆）</label>
+                <div class="inline-flex rounded-xl bg-paper-200/80 p-1">
+                  <button type="button" id="calGregBtn" onclick="switchSingleCalendarMode('gregorian')"
+                    class="px-3 py-1 rounded-lg text-xs font-medium transition bg-white text-ink-900 shadow-sm">
+                    國曆（西元）
+                  </button>
+                  <button type="button" id="calLunarBtn" onclick="switchSingleCalendarMode('lunar')"
+                    class="px-3 py-1 rounded-lg text-xs font-medium transition text-ink-500 hover:text-ink-900">
+                    農曆（陰曆）
+                  </button>
+                  <button type="button" id="calFreeBtn" onclick="switchSingleCalendarMode('free')"
+                    class="px-3 py-1 rounded-lg text-xs font-medium transition text-ink-500 hover:text-ink-900">
+                    自由文字輸入
+                  </button>
+                </div>
+              </div>
+
+              <!-- 國曆下拉面板 -->
+              <div id="singleGregPanel" class="grid grid-cols-3 gap-3 bg-white/80 p-3.5 rounded-xl border border-paper-300/80">
+                <div>
+                  <label for="sGregYear" class="block text-[11px] text-ink-500 mb-1">出生年份</label>
+                  <select id="sGregYear" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:border-vermilion-600"></select>
+                </div>
+                <div>
+                  <label for="sGregMonth" class="block text-[11px] text-ink-500 mb-1">國曆月份</label>
+                  <select id="sGregMonth" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:border-vermilion-600"></select>
+                </div>
+                <div>
+                  <label for="sGregDay" class="block text-[11px] text-ink-500 mb-1">國曆日期</label>
+                  <select id="sGregDay" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:border-vermilion-600"></select>
+                </div>
+              </div>
+
+              <!-- 農曆下拉面板 -->
+              <div id="singleLunarPanel" class="hidden space-y-2.5 bg-white/80 p-3.5 rounded-xl border border-paper-300/80">
+                <div class="grid grid-cols-3 gap-3">
+                  <div>
+                    <label for="sLunarYear" class="block text-[11px] text-ink-500 mb-1">農曆年份</label>
+                    <select id="sLunarYear" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:border-vermilion-600"></select>
+                  </div>
+                  <div>
+                    <label for="sLunarMonth" class="block text-[11px] text-ink-500 mb-1">農曆月份</label>
+                    <select id="sLunarMonth" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:border-vermilion-600"></select>
+                  </div>
+                  <div>
+                    <label for="sLunarDay" class="block text-[11px] text-ink-500 mb-1">農曆初幾</label>
+                    <select id="sLunarDay" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm text-ink-900 focus:outline-none focus:border-vermilion-600"></select>
+                  </div>
+                </div>
+                <label class="inline-flex items-center gap-2 cursor-pointer text-xs text-ink-700 select-none">
+                  <input type="checkbox" id="sIsLeapMonth" class="rounded border-paper-300 text-vermilion-600 focus:ring-vermilion-600" />
+                  <span>此月份為「閏月」（如不確定可不勾選）</span>
+                </label>
+              </div>
+
+              <!-- 自由文字輸入面板 -->
+              <div id="singleFreePanel" class="hidden space-y-2 bg-white/80 p-3.5 rounded-xl border border-paper-300/80">
+                <input
+                  type="text"
+                  id="sFreeDateText"
+                  placeholder="例如：農曆80年4月25日 或 1995年8月15日 國曆"
+                  class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3.5 py-2 text-sm text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-vermilion-600"
+                />
+                <div class="flex flex-wrap items-center gap-1.5 text-[11px] text-ink-500">
+                  <span>快速填入：</span>
+                  <button type="button" onclick="document.getElementById('sFreeDateText').value='農曆80年4月25日'" class="px-2 py-0.5 rounded bg-paper-200 hover:bg-gold-100 text-ink-700">農曆80年4月25日</button>
+                  <button type="button" onclick="document.getElementById('sFreeDateText').value='1995年8月15日 國曆'" class="px-2 py-0.5 rounded bg-paper-200 hover:bg-gold-100 text-ink-700">1995年8月15日 國曆</button>
+                  <button type="button" onclick="document.getElementById('sFreeDateText').value='民國87年10月14日'" class="px-2 py-0.5 rounded bg-paper-200 hover:bg-gold-100 text-ink-700">民國87年10月14日</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 步驟 貳：出生時間、出生地區與【時辰反推小工具】 -->
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2.5 border-b border-paper-200 pb-2.5">
+            <div class="flex items-center gap-2.5">
+              <span class="w-6 h-6 rounded-full bg-vermilion-600 text-white text-xs font-bold flex items-center justify-center">貳</span>
+              <h3 class="font-serif text-lg font-bold text-ink-900">出生時間與地區（可選填或使用時辰反推）</h3>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <!-- 時辰反推引導小工具按鈕 -->
+              <button
+                type="button"
+                onclick="openHourDeductionModal()"
+                class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-ziwei-900 to-astral-900 hover:from-ziwei-800 hover:to-astral-800 text-ziwei-light border border-ziwei-gold/50 text-xs font-bold shadow-sm transition flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>🧭 不知道時辰？開啟時辰反推小工具</span>
+              </button>
+
+              <!-- 勾選時辰不詳 -->
+              <label class="inline-flex items-center gap-2 cursor-pointer bg-paper-200/90 hover:bg-gold-100 px-3 py-1.5 rounded-xl border border-gold-500/40 transition select-none">
+                <input type="checkbox" id="sUnknownTimeToggle" onchange="toggleSingleUnknownTime()" class="w-4 h-4 rounded text-vermilion-600 focus:ring-vermilion-600" />
+                <span class="text-xs font-medium text-ink-900">時辰不詳 / 未知</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 已知時間面板 -->
+          <div id="sKnownTimePanel" class="bg-white/80 p-4 rounded-xl border border-paper-300/80 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs text-ink-500">精確時辰可同時解鎖「八字時柱、紫微十二宮、月亮與上升星座」：</span>
+              <div class="inline-flex rounded-lg bg-paper-200/80 p-0.5 text-xs">
+                <button type="button" id="sTimeTypeShichenBtn" onclick="switchSingleTimeType('shichen')" class="px-2.5 py-1 rounded-md bg-white text-ink-900 font-medium shadow-sm">
+                  傳統十二時辰
+                </button>
+                <button type="button" id="sTimeTypeExactBtn" onclick="switchSingleTimeType('exact')" class="px-2.5 py-1 rounded-md text-ink-500 hover:text-ink-900">
+                  精確時間 (時:分)
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+              <div class="md:col-span-7">
+                <div id="sShichenWrapper">
+                  <label for="sShichenSelect" class="block text-[11px] text-ink-500 mb-1">出生時辰</label>
+                  <select id="sShichenSelect" class="w-full rounded-xl border border-paper-300 bg-paper-50 px-3.5 py-2.5 text-sm text-ink-900 focus:outline-none focus:border-vermilion-600">
+                    <option value="子時 (23:00-01:00)">子時 (23:00 - 01:00)｜夜半</option>
+                    <option value="丑時 (01:00-03:00)">丑時 (01:00 - 03:00)｜雞鳴</option>
+                    <option value="寅時 (03:00-05:00)">寅時 (03:00 - 05:00)｜平旦</option>
+                    <option value="卯時 (05:00-07:00)" selected>卯時 (05:00 - 07:00)｜日出</option>
+                    <option value="辰時 (07:00-09:00)">辰時 (07:00 - 09:00)｜食時</option>
+                    <option value="巳時 (09:00-11:00)">巳時 (09:00 - 11:00)｜隅中</option>
+                    <option value="午時 (11:00-13:00)">午時 (11:00 - 13:00)｜日中</option>
+                    <option value="未時 (13:00-15:00)">未時 (13:00 - 15:00)｜日昳</option>
+                    <option value="申時 (15:00-17:00)">申時 (15:00 - 17:00)｜哺時</option>
+                    <option value="酉時 (17:00-19:00)">酉時 (17:00 - 19:00)｜日入</option>
+                    <option value="戌時 (19:00-21:00)">戌時 (19:00 - 21:00)｜黃昏</option>
+                    <option value="亥時 (21:00-23:00)">亥時 (21:00 - 23:00)｜人定</option>
+                  </select>
+                </div>
+
+                <div id="sExactTimeWrapper" class="hidden grid grid-cols-2 gap-3">
+                  <div>
+                    <label for="sExactHour" class="block text-[11px] text-ink-500 mb-1">小時 (00-23)</label>
+                    <select id="sExactHour" class="w-full rounded-xl border border-paper-300 bg-paper-50 px-3 py-2.5 text-sm text-ink-900"></select>
+                  </div>
+                  <div>
+                    <label for="sExactMinute" class="block text-[11px] text-ink-500 mb-1">分鐘 (00-59)</label>
+                    <select id="sExactMinute" class="w-full rounded-xl border border-paper-300 bg-paper-50 px-3 py-2.5 text-sm text-ink-900"></select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="md:col-span-5">
+                <label for="sBirthLocation" class="block text-[11px] text-ink-500 mb-1">出生地區（輔助真太陽時與上升星座計算）</label>
+                <input
+                  type="text"
+                  id="sBirthLocation"
+                  value="台灣"
+                  placeholder="例如：台灣、香港、東京、紐約"
+                  class="w-full rounded-xl border border-paper-300 bg-paper-50 px-3.5 py-2.5 text-sm text-ink-900 focus:outline-none focus:border-astral-900"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- 未知時間提示框 -->
+          <div id="sUnknownTimeNotice" class="hidden bg-gradient-to-r from-gold-100/80 via-ziwei-900/5 to-astral-900/10 border border-gold-500/45 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-start gap-3">
+              <span class="text-xl leading-none mt-0.5">🕯️</span>
+              <div class="text-xs sm:text-sm text-ink-700 space-y-1">
+                <p class="font-bold text-ink-900">已啟用「三柱推命 ＋ 太陽金火行星」彈性推演模式</p>
+                <p class="text-ink-600">八字將採年、月、日三柱六字論命；紫微與上升星座將暫以生年四化與太陽星座主導。若想推算完整十二宮，可點擊右側「時辰反推」透過人生大事反推時辰！</p>
+              </div>
+            </div>
+            <button type="button" onclick="openHourDeductionModal()" class="shrink-0 px-3 py-2 rounded-lg bg-ziwei-900 text-ziwei-light text-xs font-bold hover:bg-ziwei-800 transition">
+              🧭 試試時辰反推
+            </button>
+          </div>
+        </div>
+
+        <!-- 步驟 參：選擇問事類別 -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-2.5 border-b border-paper-200 pb-2.5">
+            <span class="w-6 h-6 rounded-full bg-vermilion-600 text-white text-xs font-bold flex items-center justify-center">參</span>
+            <h3 class="font-serif text-lg font-bold text-ink-900">選擇欲請教之問事類別（排盤後可隨時切換）</h3>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="singleTopicGrid">
+            <button type="button" data-topic="愛情姻緣" onclick="selectSingleTopic(this)"
+              class="s-topic-card text-left p-3.5 rounded-xl border-2 border-vermilion-600 bg-vermilion-50/80 shadow-sm transition flex flex-col justify-between gap-1">
+              <div class="flex items-center justify-between">
+                <span class="text-lg">💕</span>
+                <span class="s-topic-badge text-[10px] px-1.5 py-0.5 rounded bg-vermilion-600 text-white font-bold">已選</span>
+              </div>
+              <div class="font-serif font-bold text-sm text-ink-900">愛情姻緣</div>
+              <div class="text-[11px] text-ink-500">正緣桃花、夫妻宮</div>
+            </button>
+
+            <button type="button" data-topic="事業職場" onclick="selectSingleTopic(this)"
+              class="s-topic-card text-left p-3.5 rounded-xl border border-paper-300 bg-white/80 hover:border-gold-500 transition flex flex-col justify-between gap-1">
+              <div class="flex items-center justify-between">
+                <span class="text-lg">💼</span>
+                <span class="s-topic-badge hidden text-[10px] px-1.5 py-0.5 rounded bg-vermilion-600 text-white font-bold">已選</span>
+              </div>
+              <div class="font-serif font-bold text-sm text-ink-900">事業職場</div>
+              <div class="text-[11px] text-ink-500">升遷轉職、官祿宮</div>
+            </button>
+
+            <button type="button" data-topic="財運理財" onclick="selectSingleTopic(this)"
+              class="s-topic-card text-left p-3.5 rounded-xl border border-paper-300 bg-white/80 hover:border-gold-500 transition flex flex-col justify-between gap-1">
+              <div class="flex items-center justify-between">
+                <span class="text-lg">💰</span>
+                <span class="s-topic-badge hidden text-[10px] px-1.5 py-0.5 rounded bg-vermilion-600 text-white font-bold">已選</span>
+              </div>
+              <div class="font-serif font-bold text-sm text-ink-900">財運理財</div>
+              <div class="text-[11px] text-ink-500">正偏財庫、財帛宮</div>
+            </button>
+
+            <button type="button" data-topic="學業考運" onclick="selectSingleTopic(this)"
+              class="s-topic-card text-left p-3.5 rounded-xl border border-paper-300 bg-white/80 hover:border-gold-500 transition flex flex-col justify-between gap-1">
+              <div class="flex items-center justify-between">
+                <span class="text-lg">📚</span>
+                <span class="s-topic-badge hidden text-[10px] px-1.5 py-0.5 rounded bg-vermilion-600 text-white font-bold">已選</span>
+              </div>
+              <div class="font-serif font-bold text-sm text-ink-900">學業考運</div>
+              <div class="text-[11px] text-ink-500">文昌化科、考運衝刺</div>
+            </button>
+
+            <button type="button" data-topic="健康身心" onclick="selectSingleTopic(this)"
+              class="s-topic-card text-left p-3.5 rounded-xl border border-paper-300 bg-white/80 hover:border-gold-500 transition flex flex-col justify-between gap-1">
+              <div class="flex items-center justify-between">
+                <span class="text-lg">🌿</span>
+                <span class="s-topic-badge hidden text-[10px] px-1.5 py-0.5 rounded bg-vermilion-600 text-white font-bold">已選</span>
+              </div>
+              <div class="font-serif font-bold text-sm text-ink-900">健康身心</div>
+              <div class="text-[11px] text-ink-500">五行調候、福德疾厄</div>
+            </button>
+
+            <button type="button" data-topic="整體流年" onclick="selectSingleTopic(this)"
+              class="s-topic-card text-left p-3.5 rounded-xl border border-paper-300 bg-white/80 hover:border-gold-500 transition flex flex-col justify-between gap-1">
+              <div class="flex items-center justify-between">
+                <span class="text-lg">🧭</span>
+                <span class="s-topic-badge hidden text-[10px] px-1.5 py-0.5 rounded bg-vermilion-600 text-white font-bold">已選</span>
+              </div>
+              <div class="font-serif font-bold text-sm text-ink-900">整體流年</div>
+              <div class="text-[11px] text-ink-500">大運格局、流年四化</div>
+            </button>
+          </div>
+
+          <!-- 選填具體提問框 -->
+          <div class="pt-1">
+            <label for="sExtraContext" class="block text-xs text-ink-500 mb-1.5">
+              具體問題補充（選填，可寫下您目前的處境或疑問，AI 將針對此細節重點剖析）：
+            </label>
+            <input
+              type="text"
+              id="sExtraContext"
+              placeholder="例如：2026下半年適合創業或跳槽嗎？／目前曖昧對象是否值得繼續發展？"
+              class="w-full rounded-xl border border-paper-300 bg-white/85 px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-vermilion-600"
+            />
+          </div>
+        </div>
+
+        <!-- 個人三盤送出按鈕 -->
+        <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-paper-200">
+          <p class="text-xs text-ink-500">
+            點擊後將同步排定「八字四柱＋紫微命盤＋西方星盤」，並生成 2026–2030 流年與專屬開運籤詩。
+          </p>
+          <button
+            id="singleSubmitBtn"
+            type="button"
+            onclick="startSingleTriadAnalysis()"
+            class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-vermilion-600 via-ziwei-900 to-astral-900 hover:opacity-95 active:scale-[0.99] text-white font-serif font-bold text-base tracking-wider shadow-lg transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer"
+          >
+            <span>☯ ✵ ✦ 啟動三盤合參精算</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== 【模式 B：雙人合盤配對表單】 ==================== -->
+      <div id="synastryFormContainer" class="hidden space-y-6">
+        <!-- 合盤關係類型選擇 -->
+        <div class="space-y-2.5">
+          <label class="block text-sm font-serif font-bold text-ink-900">一、選擇雙人合盤關係類型</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button type="button" data-rel="情侶婚姻契合度" onclick="selectSynastryRelation(this)"
+              class="syn-rel-btn p-3.5 rounded-xl border-2 border-vermilion-600 bg-vermilion-50/80 text-left transition shadow-sm">
+              <div class="font-serif font-bold text-sm text-vermilion-700 flex items-center gap-1.5"><span>💕</span><span>情侶婚姻契合度</span></div>
+              <p class="text-xs text-ink-600 mt-1">檢視日支夫妻宮、金星火星吸引與婚姻長久互補</p>
+            </button>
+            <button type="button" data-rel="商業合夥互補" onclick="selectSynastryRelation(this)"
+              class="syn-rel-btn p-3.5 rounded-xl border border-paper-300 bg-white/80 hover:border-gold-500 text-left transition">
+              <div class="font-serif font-bold text-sm text-ink-900 flex items-center gap-1.5"><span>🤝</span><span>商業合夥互補</span></div>
+              <p class="text-xs text-ink-600 mt-1">剖析五行喜用互助、官祿財帛分工與決策盲點</p>
+            </button>
+            <button type="button" data-rel="親友溝通指南" onclick="selectSynastryRelation(this)"
+              class="syn-rel-btn p-3.5 rounded-xl border border-paper-300 bg-white/80 hover:border-gold-500 text-left transition">
+              <div class="font-serif font-bold text-sm text-ink-900 flex items-center gap-1.5"><span>🌿</span><span>親友溝通指南</span></div>
+              <p class="text-xs text-ink-600 mt-1">理解月亮內在情緒需求、福德宮心性與相處界線</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- 甲方與乙方並排生辰輸入卡 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <!-- 甲方卡片 -->
+          <div class="bg-white/85 rounded-2xl p-5 border border-vermilion-600/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-paper-200 pb-2.5">
+              <span class="font-serif font-bold text-base text-vermilion-700 flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-vermilion-600 text-white text-xs">甲方</span>
+                <span>第一方生辰資料（求測者本人）</span>
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-ink-500 mb-1">稱呼（選填）</label>
+                <input type="text" id="synNameA" placeholder="例如：我 / 甲方" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm" />
+              </div>
+              <div>
+                <label class="block text-xs text-ink-500 mb-1">性別</label>
+                <select id="synGenderA" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm">
+                  <option value="男 (乾造)">男 (乾造)</option>
+                  <option value="女 (坤造)" selected>女 (坤造)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs text-ink-500 mb-1">出生年月日（國曆或農曆皆可自由輸入）</label>
+              <input type="text" id="synDateA" value="國曆 1995年8月15日" placeholder="例如：國曆 1995/08/15 或 農曆 84年7月20日"
+                class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm focus:outline-none focus:border-vermilion-600" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+              <div>
+                <label class="block text-xs text-ink-500 mb-1">出生時辰</label>
+                <select id="synTimeA" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm">
+                  <option value="時辰不詳">時辰不詳（三柱＋太陽金星）</option>
+                  <option value="子時 (23:00-01:00)">子時 (23:00-01:00)</option>
+                  <option value="丑時 (01:00-03:00)">丑時 (01:00-03:00)</option>
+                  <option value="寅時 (03:00-05:00)">寅時 (03:00-05:00)</option>
+                  <option value="卯時 (05:00-07:00)">卯時 (05:00-07:00)</option>
+                  <option value="辰時 (07:00-09:00)">辰時 (07:00-09:00)</option>
+                  <option value="巳時 (09:00-11:00)" selected>巳時 (09:00-11:00)</option>
+                  <option value="午時 (11:00-13:00)">午時 (11:00-13:00)</option>
+                  <option value="未時 (13:00-15:00)">未時 (13:00-15:00)</option>
+                  <option value="申時 (15:00-17:00)">申時 (15:00-17:00)</option>
+                  <option value="酉時 (17:00-19:00)">酉時 (17:00-19:00)</option>
+                  <option value="戌時 (19:00-21:00)">戌時 (19:00-21:00)</option>
+                  <option value="亥時 (21:00-23:00)">亥時 (21:00-23:00)</option>
+                </select>
+              </div>
+              <div class="text-[11px] text-ink-500 pb-2">
+                支援國農曆自動換算，不知時辰可選「時辰不詳」
+              </div>
+            </div>
+          </div>
+
+          <!-- 乙方卡片 -->
+          <div class="bg-white/85 rounded-2xl p-5 border border-ziwei-700/35 space-y-4">
+            <div class="flex items-center justify-between border-b border-paper-200 pb-2.5">
+              <span class="font-serif font-bold text-base text-ziwei-900 flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-ziwei-900 text-ziwei-light text-xs">乙方</span>
+                <span>第二方生辰資料（伴侶 / 夥伴 / 親友）</span>
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-ink-500 mb-1">稱呼（選填）</label>
+                <input type="text" id="synNameB" placeholder="例如：對方 / 乙方" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm" />
+              </div>
+              <div>
+                <label class="block text-xs text-ink-500 mb-1">性別</label>
+                <select id="synGenderB" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm">
+                  <option value="男 (乾造)" selected>男 (乾造)</option>
+                  <option value="女 (坤造)">女 (坤造)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs text-ink-500 mb-1">出生年月日（國曆或農曆皆可自由輸入）</label>
+              <input type="text" id="synDateB" value="農曆 82年11月8日" placeholder="例如：國曆 1993/12/20 或 農曆 82年11月8日"
+                class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm focus:outline-none focus:border-ziwei-900" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
+              <div>
+                <label class="block text-xs text-ink-500 mb-1">出生時辰</label>
+                <select id="synTimeB" class="w-full rounded-lg border border-paper-300 bg-paper-50 px-3 py-2 text-sm">
+                  <option value="時辰不詳" selected>時辰不詳（三柱＋太陽金星）</option>
+                  <option value="子時 (23:00-01:00)">子時 (23:00-01:00)</option>
+                  <option value="丑時 (01:00-03:00)">丑時 (01:00-03:00)</option>
+                  <option value="寅時 (03:00-05:00)">寅時 (03:00-05:00)</option>
+                  <option value="卯時 (05:00-07:00)">卯時 (05:00-07:00)</option>
+                  <option value="辰時 (07:00-09:00)">辰時 (07:00-09:00)</option>
+                  <option value="巳時 (09:00-11:00)">巳時 (09:00-11:00)</option>
+                  <option value="午時 (11:00-13:00)">午時 (11:00-13:00)</option>
+                  <option value="未時 (13:00-15:00)">未時 (13:00-15:00)</option>
+                  <option value="申時 (15:00-17:00)">申時 (15:00-17:00)</option>
+                  <option value="酉時 (17:00-19:00)">酉時 (17:00-19:00)</option>
+                  <option value="戌時 (19:00-21:00)">戌時 (19:00-21:00)</option>
+                  <option value="亥時 (21:00-23:00)">亥時 (21:00-23:00)</option>
+                </select>
+              </div>
+              <div class="text-[11px] text-ink-500 pb-2">
+                即使不知道對方出生時間，依然可完整比對八字三柱與太陽金星！
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label for="synExtraNote" class="block text-xs text-ink-500 mb-1.5">想特別了解的合盤重點（選填）：</label>
+          <input type="text" id="synExtraNote" placeholder="例如：我們在金錢觀與溝通上容易起衝突，該如何磨合？／2026年適合論及婚嫁或共同創業嗎？"
+            class="w-full rounded-xl border border-paper-300 bg-white/85 px-4 py-2.5 text-sm" />
+        </div>
+
+        <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-paper-200">
+          <p class="text-xs text-ink-500">結合「八字五行互補 × 紫微夫妻/官祿宮互動 × 占星日月金火相位」進行雙人深度合參。</p>
+          <button
+            id="synastrySubmitBtn"
+            type="button"
+            onclick="startSynastryAnalysis()"
+            class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-vermilion-600 to-ziwei-900 hover:opacity-95 text-white font-serif font-bold text-base tracking-wider shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>💞 開始三盤雙人合盤推演</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 第二部分：三垣太極星盤載入動畫 ==================== -->
+    <section id="loadingSection" class="hidden zen-card rounded-2xl p-10 sm:p-14 text-center space-y-6 animate-fade-up">
+      <div class="relative w-32 h-32 mx-auto flex items-center justify-center">
+        <!-- 外圈紫微星垣與黃道十二宮 -->
+        <svg class="w-32 h-32 text-ziwei-gold animate-spin-reverse absolute inset-0" viewBox="0 0 120 120" fill="none">
+          <circle cx="60" cy="60" r="56" stroke="#2D1B3D" stroke-width="1.5" stroke-opacity="0.3" />
+          <circle cx="60" cy="60" r="50" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" />
+          <circle cx="60" cy="60" r="40" stroke="#161D31" stroke-width="1" stroke-opacity="0.35" />
+          <polygon points="60,4 63,12 60,15 57,12" fill="currentColor" />
+          <polygon points="60,116 63,108 60,105 57,108" fill="currentColor" />
+          <polygon points="4,60 12,57 15,60 12,63" fill="currentColor" />
+          <polygon points="116,60 108,57 105,60 108,63" fill="currentColor" />
+        </svg>
+        <!-- 內圈太極圖 -->
+        <svg class="w-16 h-16 animate-spin-slow drop-shadow-sm" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="48" fill="#FAF6EE" stroke="#1F2421" stroke-width="3" />
+          <path d="M50 2 A48 48 0 0 1 50 98 A24 24 0 0 1 50 50 A24 24 0 0 0 50 2 Z" fill="#1F2421" />
+          <circle cx="50" cy="26" r="7" fill="#1F2421" />
+          <circle cx="50" cy="74" r="7" fill="#FAF6EE" />
+        </svg>
+      </div>
+
+      <div class="space-y-2 max-w-md mx-auto">
+        <h3 id="loadingTitle" class="font-serif text-xl font-bold text-ink-900 tracking-wide">
+          正在推演八字四柱、紫微星垣與黃道星曆…
+        </h3>
+        <p id="loadingSubtitle" class="text-sm text-ink-500">
+          AI 正在同步校對節氣交接、安紫微十二宮四化並計算日月升金火相位
+        </p>
+      </div>
+    </section>
+
+    <!-- ==================== 第三部分：個人三盤合參儀表板 ==================== -->
+    <section id="singleResultSection" class="hidden space-y-7 animate-fade-up">
+
+      <!-- 1. 雙曆與三盤總綱列 -->
+      <div class="zen-card rounded-2xl p-5 sm:p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-paper-200">
+          <div class="flex items-center gap-2.5">
+            <span class="seal-stamp px-2 py-0.5 rounded text-xs font-bold bg-vermilion-50">三垣定盤</span>
+            <h3 class="font-serif text-lg sm:text-xl font-bold text-ink-900">雙曆節氣校對與命盤總綱</h3>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="saveCurrentChartToStorage()"
+              class="px-3 py-1.5 rounded-lg border border-ziwei-700/40 bg-ziwei-900 text-ziwei-light hover:bg-ziwei-800 text-xs font-medium transition flex items-center gap-1">
+              <span>💾 記憶此命盤</span>
+            </button>
+            <button type="button" onclick="copySingleFullReport()"
+              class="px-3 py-1.5 rounded-lg border border-gold-500/45 bg-gold-100/70 hover:bg-gold-100 text-xs font-medium text-ink-900 transition flex items-center gap-1">
+              <span>📋 複製三盤報告</span>
+            </button>
+            <button type="button" onclick="scrollToForm()"
+              class="px-3 py-1.5 rounded-lg border border-paper-300 bg-white hover:bg-paper-100 text-xs font-medium text-ink-700 transition">
+              重新排盤
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-4">
+          <div class="bg-paper-100 rounded-xl p-3.5 border border-paper-200">
+            <div class="text-xs text-ink-500 mb-1">確認國曆（節氣基準）</div>
+            <div id="resGregorian" class="font-serif font-bold text-ink-900 text-sm sm:text-base">—</div>
+            <div id="resSolarTerm" class="text-xs font-medium text-vermilion-600 mt-0.5">—</div>
+          </div>
+          <div class="bg-paper-100 rounded-xl p-3.5 border border-paper-200">
+            <div class="text-xs text-ink-500 mb-1">農曆干支與命造</div>
+            <div id="resLunar" class="font-serif font-bold text-ink-900 text-sm sm:text-base">—</div>
+            <div id="resGenderZodiac" class="text-xs text-ink-600 mt-0.5">—</div>
+          </div>
+          <div class="bg-ziwei-900 text-white rounded-xl p-3.5 border border-ziwei-gold/45">
+            <div class="text-xs text-ziwei-light/80 mb-1">紫微星垣定局</div>
+            <div id="resZiweiSummaryBadge" class="font-serif font-bold text-ziwei-gold text-sm sm:text-base">—</div>
+          </div>
+          <div class="bg-astral-900 text-white rounded-xl p-3.5 border border-astral-gold/45">
+            <div class="text-xs text-astral-light/80 mb-1">八字日主 × 占星太陽</div>
+            <div id="resSunBaziBadge" class="font-serif font-bold text-astral-gold text-sm sm:text-base">—</div>
+          </div>
+        </div>
+        <p id="resCalendarNote" class="text-xs text-ink-500 mt-3 leading-relaxed"></p>
+      </div>
+
+      <!-- 2. 【三盤並陳核心卡片區】：東方八字 + 紫微斗數 + 西方占星 -->
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
+
+        <!-- 卡片 1（4欄）：【東方子平八字】 -->
+        <div class="xl:col-span-4 zen-card rounded-2xl p-5 flex flex-col justify-between space-y-4">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between gap-2 pb-3 border-b border-paper-200">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-xs font-serif font-bold bg-vermilion-600 text-white">東方八字</span>
+                <h3 class="font-serif text-base sm:text-lg font-bold text-ink-900">子平四柱命盤</h3>
+              </div>
+              <span class="text-[11px] text-ink-500">右至左（年→時）</span>
+            </div>
+
+            <!-- 四柱表格 -->
+            <div class="rounded-xl border border-gold-500/35 overflow-hidden bg-white/90">
+              <div class="grid grid-cols-4 bg-paper-200/80 border-b border-gold-500/25 text-center divide-x divide-gold-500/20">
+                <div class="py-2 text-xs font-serif font-bold text-ink-700">時柱</div>
+                <div class="py-2 text-xs font-serif font-bold text-vermilion-700 bg-vermilion-50/70">日柱</div>
+                <div class="py-2 text-xs font-serif font-bold text-ink-700">月柱</div>
+                <div class="py-2 text-xs font-serif font-bold text-ink-700">年柱</div>
+              </div>
+              <div id="pillarTenGodRow" class="grid grid-cols-4 text-center divide-x divide-paper-200 border-b border-paper-200 bg-paper-50/70"></div>
+              <div id="pillarStemRow" class="grid grid-cols-4 text-center divide-x divide-paper-200 border-b border-paper-200"></div>
+              <div id="pillarBranchRow" class="grid grid-cols-4 text-center divide-x divide-paper-200 border-b border-paper-200"></div>
+              <div id="pillarHiddenRow" class="grid grid-cols-4 text-center divide-x divide-paper-200 bg-paper-50/50"></div>
+            </div>
+
+            <!-- 日主與喜用神/忌神 -->
+            <div class="bg-paper-100 rounded-xl p-3 border border-paper-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-ink-500">本命日主：<strong id="resDayMaster" class="font-serif text-ink-900 text-sm">—</strong></span>
+                <span id="resDayStrength" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-vermilion-50 text-vermilion-700 border border-vermilion-600/30">—</span>
+              </div>
+              <div class="flex flex-wrap items-center justify-between gap-2 text-xs pt-1 border-t border-paper-200/80">
+                <div class="flex items-center gap-1">
+                  <span class="text-ink-500">喜用神：</span>
+                  <div id="resFavorableTags" class="flex gap-1"></div>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="text-ink-500">忌神：</span>
+                  <div id="resUnfavorableTags" class="flex gap-1"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 五行能量比例進度條 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-[11px] text-ink-500">
+                <span class="font-medium text-ink-700">五行能量比例</span>
+                <span>木 · 火 · 土 · 金 · 水</span>
+              </div>
+              <div id="fiveElementsBars" class="grid grid-cols-5 gap-1.5"></div>
+            </div>
+          </div>
+
+          <p id="resDayMasterSummary" class="text-xs text-ink-700 bg-gold-100/70 border border-gold-500/30 rounded-xl p-3 leading-relaxed"></p>
+        </div>
+
+        <!-- 卡片 2（4欄）：【紫微斗數命盤精華區】 -->
+        <div class="xl:col-span-4 ziwei-card rounded-2xl p-5 flex flex-col justify-between space-y-4 relative overflow-hidden">
+          <!-- 星宿背景微光 -->
+          <svg class="w-48 h-48 text-ziwei-gold/10 absolute -right-10 -bottom-10 pointer-events-none" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="100" r="88" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
+            <rect x="38" y="38" width="124" height="124" stroke="currentColor" stroke-width="0.9" transform="rotate(45 100 100)" />
+          </svg>
+
+          <div class="space-y-3.5 relative z-10">
+            <div class="flex items-center justify-between gap-2 pb-3 border-b border-ziwei-gold/25">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-xs font-serif font-bold bg-ziwei-gold text-ziwei-950">紫微星垣</span>
+                <h3 class="font-serif text-base sm:text-lg font-bold text-white">紫微斗數精華</h3>
+              </div>
+              <span id="resZiweiBureau" class="text-[11px] px-2.5 py-0.5 rounded-full bg-white/10 text-ziwei-light border border-ziwei-gold/40 font-serif">
+                —
+              </span>
+            </div>
+
+            <!-- 命宮與身宮雙卡 -->
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="rounded-xl bg-white/5 border border-ziwei-gold/35 p-3">
+                <div class="text-[11px] text-ziwei-light/75">命宮主星（先天格局）</div>
+                <div id="resZiweiLifeStars" class="font-serif font-bold text-sm sm:text-base text-ziwei-gold mt-0.5">—</div>
+                <div id="resZiweiLifePalacePos" class="text-[11px] text-slate-300 mt-0.5">—</div>
+              </div>
+              <div class="rounded-xl bg-white/5 border border-white/15 p-3">
+                <div class="text-[11px] text-ziwei-light/75">身宮所在（後天執著）</div>
+                <div id="resZiweiBodyStars" class="font-serif font-bold text-sm sm:text-base text-white mt-0.5">—</div>
+                <div id="resZiweiBodyPalacePos" class="text-[11px] text-slate-300 mt-0.5">—</div>
+              </div>
+            </div>
+
+            <!-- 生年四化（祿、權、科、忌） -->
+            <div class="rounded-xl bg-ziwei-950/60 border border-ziwei-gold/25 p-3 space-y-2">
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="text-ziwei-light font-medium">生年四化飛星（先天能量流向）</span>
+                <span class="text-slate-400">祿 · 權 · 科 · 忌</span>
+              </div>
+              <div id="resZiweiSiHuaGrid" class="grid grid-cols-2 gap-1.5 text-xs"></div>
+            </div>
+
+            <!-- 核心五宮卡片（自動高亮與目前問事主題最相關之宮位） -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="text-ziwei-light font-medium">核心宮位星曜（自動高亮問事焦點宮）</span>
+                <span id="ziweiFocusPalaceTag" class="text-ziwei-gold font-bold">焦點：夫妻宮</span>
+              </div>
+              <div id="resZiweiPalacesList" class="space-y-1.5"></div>
+            </div>
+
+            <!-- 若時辰不詳之貼心提示 -->
+            <div id="ziweiUnknownHourBanner" class="hidden rounded-xl bg-ziwei-gold/15 border border-ziwei-gold/45 p-3 space-y-1.5">
+              <p class="text-xs text-ziwei-light leading-relaxed">
+                🕯️ 時辰未定，目前紫微宮位係依三柱與生年四化推演星曜趨勢。建議使用「時辰反推」解鎖精準十二宮！
+              </p>
+              <button type="button" onclick="openHourDeductionModal()"
+                class="text-[11px] px-2.5 py-1 rounded-lg bg-ziwei-gold text-ziwei-950 font-bold hover:bg-ziwei-light transition">
+                🧭 立即反推生辰時辰 →
+              </button>
+            </div>
+          </div>
+
+          <p id="resZiweiCoreInsight" class="text-xs text-slate-200 bg-white/5 border border-white/10 rounded-xl p-3 leading-relaxed relative z-10"></p>
+        </div>
+
+        <!-- 卡片 3（4欄）：【西方占星命盤區】 -->
+        <div class="xl:col-span-4 celestial-card rounded-2xl p-5 flex flex-col justify-between space-y-4 relative overflow-hidden">
+          <svg class="w-48 h-48 text-astral-gold/10 absolute -right-10 -top-10 pointer-events-none" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="100" r="88" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" />
+            <circle cx="100" cy="100" r="60" stroke="currentColor" stroke-width="1" />
+          </svg>
+
+          <div class="space-y-3.5 relative z-10">
+            <div class="flex items-center justify-between gap-2 pb-3 border-b border-astral-gold/25">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-xs font-serif font-bold bg-astral-gold text-astral-950">西方占星</span>
+                <h3 class="font-serif text-base sm:text-lg font-bold text-white">古典星盤配置</h3>
+              </div>
+              <span id="astroModeLabel" class="text-[11px] px-2.5 py-0.5 rounded-full bg-white/10 text-astral-light border border-astral-gold/30">
+                個人行星全盤
+              </span>
+            </div>
+
+            <!-- 五大個人行星落點網格（太陽、月亮、上升、金星、火星） -->
+            <div class="space-y-2">
+              <!-- 太陽主卡 -->
+              <div class="rounded-xl bg-white/5 border border-astral-gold/40 p-3 flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                  <div id="sunSymbolBox" class="w-10 h-10 rounded-xl bg-astral-gold/20 border border-astral-gold/50 flex items-center justify-center text-xl text-astral-gold font-serif">
+                    ☉
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-astral-light/75">太陽星座（核心自我）</div>
+                    <div id="resSunSign" class="font-serif text-base font-bold text-white">—</div>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span id="resSunElement" class="px-2 py-0.5 rounded-full text-[11px] bg-astral-gold/20 text-astral-gold border border-astral-gold/35">—</span>
+                  <div id="resSunDateRange" class="text-[10px] text-slate-300 mt-0.5">—</div>
+                </div>
+              </div>
+
+              <!-- 月亮 & 上升 雙卡 -->
+              <div class="grid grid-cols-2 gap-2">
+                <div class="rounded-xl bg-white/5 border border-white/15 p-2.5">
+                  <div class="text-[10px] text-indigo-200/80">☽ 月亮（內在情感）</div>
+                  <div id="resMoonSign" class="font-serif font-bold text-sm text-white mt-0.5">—</div>
+                  <p id="resMoonTrait" class="text-[11px] text-slate-300 mt-1 line-clamp-2 leading-snug"></p>
+                </div>
+                <div class="rounded-xl bg-white/5 border border-white/15 p-2.5">
+                  <div class="text-[10px] text-amber-200/80">↑ 上升（外在面具）</div>
+                  <div id="resRisingSign" class="font-serif font-bold text-sm text-white mt-0.5">—</div>
+                  <p id="resRisingTrait" class="text-[11px] text-slate-300 mt-1 line-clamp-2 leading-snug"></p>
+                </div>
+              </div>
+
+              <!-- 金星 & 火星 雙卡 -->
+              <div class="grid grid-cols-2 gap-2">
+                <div class="rounded-xl bg-white/5 border border-white/15 p-2.5">
+                  <div class="text-[10px] text-pink-200/80">♀ 金星（愛情與財富）</div>
+                  <div id="resVenusSign" class="font-serif font-bold text-sm text-astral-light mt-0.5">—</div>
+                  <p id="resVenusTrait" class="text-[11px] text-slate-300 mt-1 line-clamp-2 leading-snug"></p>
+                </div>
+                <div class="rounded-xl bg-white/5 border border-white/15 p-2.5">
+                  <div class="text-[10px] text-rose-200/80">♂ 火星（行動與競爭）</div>
+                  <div id="resMarsSign" class="font-serif font-bold text-sm text-astral-light mt-0.5">—</div>
+                  <p id="resMarsTrait" class="text-[11px] text-slate-300 mt-1 line-clamp-2 leading-snug"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 四元素能量分佈（火、土、風、水） -->
+            <div class="space-y-1.5 pt-1">
+              <div class="flex items-center justify-between text-[11px] text-slate-300">
+                <span>占星四元素能量比例</span>
+                <span>火 · 土 · 風 · 水</span>
+              </div>
+              <div id="astroFourElementsBars" class="grid grid-cols-4 gap-1.5"></div>
+            </div>
+          </div>
+
+          <p id="resAstroCoreInsight" class="text-xs text-slate-200 bg-white/5 border border-white/10 rounded-xl p-3 leading-relaxed relative z-10"></p>
+        </div>
+      </div>
+
+      <!-- 3. 【三盤交叉印證深度解析】區塊（支援免重填切換問事類別） -->
+      <div class="zen-card rounded-2xl p-5 sm:p-8 space-y-6">
+        <div class="space-y-3 border-b border-paper-200 pb-5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="seal-stamp px-2 py-0.5 rounded text-xs font-bold bg-vermilion-50">三垣合參</span>
+              <h3 class="font-serif text-xl font-bold text-ink-900">
+                三盤聯合深度剖析：<span id="activeTopicTitle" class="text-vermilion-600">愛情姻緣</span>
+              </h3>
+            </div>
+            <span class="text-xs text-ink-500">切換類別將同步高亮對應紫微宮位並更新三盤合參解析</span>
+          </div>
+
+          <!-- 快速切換問事分類標籤列 -->
+          <div id="dashboardTopicTabs" class="flex flex-wrap gap-2 pt-1">
+            <button type="button" data-tab-topic="愛情姻緣" onclick="switchDashboardTopic('愛情姻緣')" class="dash-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border transition flex items-center gap-1.5">
+              <span>💕</span><span>愛情姻緣</span>
+            </button>
+            <button type="button" data-tab-topic="事業職場" onclick="switchDashboardTopic('事業職場')" class="dash-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border transition flex items-center gap-1.5">
+              <span>💼</span><span>事業職場</span>
+            </button>
+            <button type="button" data-tab-topic="財運理財" onclick="switchDashboardTopic('財運理財')" class="dash-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border transition flex items-center gap-1.5">
+              <span>💰</span><span>財運理財</span>
+            </button>
+            <button type="button" data-tab-topic="學業考運" onclick="switchDashboardTopic('學業考運')" class="dash-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border transition flex items-center gap-1.5">
+              <span>📚</span><span>學業考運</span>
+            </button>
+            <button type="button" data-tab-topic="健康身心" onclick="switchDashboardTopic('健康身心')" class="dash-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border transition flex items-center gap-1.5">
+              <span>🌿</span><span>健康身心</span>
+            </button>
+            <button type="button" data-tab-topic="整體流年" onclick="switchDashboardTopic('整體流年')" class="dash-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border transition flex items-center gap-1.5">
+              <span>🧭</span><span>整體流年</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 切換主題載入中遮罩 -->
+        <div id="topicLoadingBar" class="hidden py-10 text-center space-y-3">
+          <div class="w-10 h-10 border-2 border-vermilion-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p class="text-sm font-serif text-ink-700">正在結合八字喜忌、紫微宮位四化與占星行運，推演「<span id="switchingTopicName"></span>」…</p>
+        </div>
+
+        <!-- 三盤交叉印證內容網格 -->
+        <div id="readingContentGrid" class="space-y-5">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- 壹：性格底色共鳴與內外反差 -->
+            <article class="bg-white/90 rounded-xl p-5 border border-gold-500/35 shadow-sm space-y-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 text-ink-900">
+                  <span class="w-7 h-7 rounded-lg bg-gradient-to-br from-vermilion-600 via-ziwei-900 to-astral-900 text-white flex items-center justify-center text-xs font-bold">壹</span>
+                  <h4 class="font-serif font-bold text-base sm:text-lg">性格共鳴與內外反差</h4>
+                </div>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-gold-100 text-gold-600">八字 × 紫微命宮 × 日月升</span>
+              </div>
+              <p id="readPersonalitySynergy" class="text-sm text-ink-700 leading-relaxed whitespace-pre-line"></p>
+            </article>
+
+            <!-- 貳：問事專屬三盤聯合剖析 -->
+            <article class="bg-vermilion-50/45 rounded-xl p-5 border border-vermilion-600/25 shadow-sm space-y-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 text-vermilion-700">
+                  <span class="w-7 h-7 rounded-lg bg-vermilion-600 text-white flex items-center justify-center text-xs font-bold">貳</span>
+                  <h4 class="font-serif font-bold text-base sm:text-lg">問事專屬三盤聯合剖析</h4>
+                </div>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-vermilion-50 text-vermilion-700 border border-vermilion-600/20">宮位四化 × 行星相位</span>
+              </div>
+              <p id="readTopicDeepDive" class="text-sm text-ink-800 leading-relaxed whitespace-pre-line"></p>
+            </article>
+          </div>
+
+          <!-- 參：三方開運錦囊（東方五行 + 紫微心法 + 西方星象） -->
+          <div class="rounded-xl border border-gold-500/35 bg-paper-100/75 p-5 space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="w-7 h-7 rounded-lg bg-gold-600 text-white flex items-center justify-center text-xs font-bold">參</span>
+              <h4 class="font-serif font-bold text-base sm:text-lg text-ink-900">三方開運錦囊 · 跨系統行動指南</h4>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- 東方八字五行調候 -->
+              <div class="rounded-xl bg-white/95 border border-vermilion-600/25 p-4 space-y-2">
+                <div class="font-serif font-bold text-sm text-vermilion-700 flex items-center gap-1.5 border-b border-paper-200 pb-2">
+                  <span>☯</span><span>東方八字五行調候</span>
+                </div>
+                <div id="readEasternTags" class="flex flex-wrap gap-1.5"></div>
+                <p id="readEasternAdvice" class="text-xs sm:text-sm text-ink-700 leading-relaxed"></p>
+              </div>
+
+              <!-- 紫微斗數心法佈局 -->
+              <div class="rounded-xl bg-ziwei-900 text-white border border-ziwei-gold/40 p-4 space-y-2">
+                <div class="font-serif font-bold text-sm text-ziwei-gold flex items-center gap-1.5 border-b border-white/10 pb-2">
+                  <span>✵</span><span>紫微心法與宮位佈局</span>
+                </div>
+                <div id="readZiweiTags" class="flex flex-wrap gap-1.5"></div>
+                <p id="readZiweiAdvice" class="text-xs sm:text-sm text-slate-200 leading-relaxed"></p>
+              </div>
+
+              <!-- 西方星象行動節奏 -->
+              <div class="rounded-xl bg-astral-900 text-white border border-astral-gold/40 p-4 space-y-2">
+                <div class="font-serif font-bold text-sm text-astral-gold flex items-center gap-1.5 border-b border-white/10 pb-2">
+                  <span>✦</span><span>西方星象行動節奏</span>
+                </div>
+                <div id="readWesternTags" class="flex flex-wrap gap-1.5"></div>
+                <p id="readWesternAdvice" class="text-xs sm:text-sm text-slate-200 leading-relaxed"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 【近五年大運與流年時間軸（2026–2030）】 -->
+      <div class="zen-card rounded-2xl p-5 sm:p-8 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-paper-200 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="seal-stamp px-2 py-0.5 rounded text-xs font-bold bg-vermilion-50">歲運軌跡</span>
+            <h3 class="font-serif text-lg sm:text-xl font-bold text-ink-900">近五年大運與流年時間軸（2026–2030）</h3>
+          </div>
+          <span class="text-xs text-ink-500">點擊任一年份卡片，展開該年八字、紫微流年四化與星象行動策略</span>
+        </div>
+
+        <!-- 五年橫向卡片列 -->
+        <div id="fiveYearCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5"></div>
+
+        <!-- 選中年份詳細展開面板 -->
+        <div id="selectedYearDetailPanel" class="rounded-2xl bg-gradient-to-br from-paper-100 to-white border-2 border-gold-500/45 p-5 space-y-3 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-paper-200 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span id="detailYearBadge" class="px-2.5 py-0.5 rounded-lg bg-vermilion-600 text-white font-serif font-bold text-sm">2026 丙午年</span>
+              <h4 id="detailYearKeyword" class="font-serif font-bold text-base sm:text-lg text-ink-900">—</h4>
+            </div>
+            <span id="detailYearScore" class="text-xs px-2.5 py-1 rounded-full bg-gold-100 text-gold-600 font-bold border border-gold-500/30">運勢指數：—</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+            <div class="bg-white/90 rounded-xl p-3.5 border border-paper-200 space-y-1">
+              <div class="font-serif font-bold text-vermilion-700">☯ 八字大運流年動能</div>
+              <p id="detailYearBazi" class="text-ink-700 leading-relaxed"></p>
+            </div>
+            <div class="bg-ziwei-900/5 rounded-xl p-3.5 border border-ziwei-700/20 space-y-1">
+              <div class="font-serif font-bold text-ziwei-900">✵ 紫微流年四化重點</div>
+              <p id="detailYearZiwei" class="text-ink-700 leading-relaxed"></p>
+            </div>
+            <div class="bg-astral-900/5 rounded-xl p-3.5 border border-astral-900/20 space-y-1">
+              <div class="font-serif font-bold text-astral-900">✦ 占星木土行運與策略</div>
+              <p id="detailYearAstro" class="text-ink-700 leading-relaxed"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 【每日／每週個人化開運籤詩與星象提醒】 -->
+      <div class="zen-card rounded-2xl p-5 sm:p-8 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-paper-200 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="seal-stamp px-2 py-0.5 rounded text-xs font-bold bg-vermilion-50">靈籤星語</span>
+            <h3 class="font-serif text-lg sm:text-xl font-bold text-ink-900">個人化開運籤詩與星象提醒</h3>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- 今日 vs 本週 切換 -->
+            <div class="inline-flex rounded-xl bg-paper-200/90 p-1 text-xs">
+              <button type="button" id="fortuneDailyTab" onclick="switchFortunePeriod('daily')"
+                class="px-3 py-1 rounded-lg font-bold bg-vermilion-600 text-white shadow-sm transition">
+                🏮 今日開運靈籤
+              </button>
+              <button type="button" id="fortuneWeeklyTab" onclick="switchFortunePeriod('weekly')"
+                class="px-3 py-1 rounded-lg font-medium text-ink-700 hover:text-ink-900 transition">
+                🌌 本週星象週報
+              </button>
+            </div>
+
+            <button
+              type="button"
+              id="redrawFortuneBtn"
+              onclick="redrawPersonalFortune()"
+              class="px-3 py-1.5 rounded-xl bg-gold-600 hover:bg-gold-500 text-white text-xs font-bold shadow-sm transition flex items-center gap-1"
+            >
+              <span>🎋 重新求今日靈籤</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 籤詩載入指示 -->
+        <div id="fortuneLoadingBar" class="hidden py-8 text-center space-y-2">
+          <div class="w-8 h-8 border-2 border-gold-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p class="text-xs font-serif text-ink-700">正在感應您的八字喜用神、紫微命宮與今日星象，抽取專屬開運靈籤…</p>
+        </div>
+
+        <!-- 籤詩主展示區 -->
+        <div id="fortuneDisplayCard" class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          <!-- 左側（5欄）：傳統朱砂鎏金七言籤詩卡 -->
+          <div class="lg:col-span-5 rounded-2xl bg-gradient-to-b from-vermilion-50 to-paper-100 border-2 border-vermilion-600/40 p-5 flex flex-col justify-between text-center space-y-4 relative overflow-hidden">
+            <div class="flex items-center justify-between text-xs">
+              <span id="fortuneSignLevel" class="px-2.5 py-0.5 rounded-full bg-vermilion-600 text-white font-serif font-bold">上上大吉籤</span>
+              <span id="fortuneDateLabel" class="text-ink-500">2026年11月16日</span>
+            </div>
+
+            <div class="py-3 px-4 rounded-xl bg-white/85 border border-gold-500/40 shadow-inner space-y-2">
+              <div id="fortunePoemTitle" class="font-serif text-xs text-gold-600 tracking-widest font-bold">— 玄樞三垣專屬開運籤 —</div>
+              <div id="fortunePoemLines" class="font-serif text-base sm:text-lg font-bold text-ink-900 leading-loose tracking-widest whitespace-pre-line">
+                —
+              </div>
+            </div>
+
+            <div class="text-[11px] text-ink-500">
+              依據您的喜用神與星盤量身演繹
+            </div>
+          </div>
+
+          <!-- 右側（7欄）：白話籤解、五行穿搭色與吉時提醒 -->
+          <div class="lg:col-span-7 flex flex-col justify-between space-y-4">
+            <div class="rounded-xl bg-white/90 border border-paper-200 p-4 space-y-2">
+              <h4 class="font-serif font-bold text-sm sm:text-base text-ink-900 flex items-center gap-1.5">
+                <span>📜</span><span>白話籤解與運勢提點</span>
+              </h4>
+              <p id="fortuneInterpretation" class="text-xs sm:text-sm text-ink-700 leading-relaxed whitespace-pre-line"></p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <!-- 五行幸運穿搭色 -->
+              <div class="rounded-xl bg-paper-100 border border-paper-200 p-3.5 space-y-1.5">
+                <div class="text-[11px] text-ink-500">今日五行穿搭開運色</div>
+                <div class="flex items-center gap-2">
+                  <span id="fortuneColorSwatch" class="w-5 h-5 rounded-full border border-black/15 shrink-0" style="background-color:#2E7D5B;"></span>
+                  <span id="fortuneLuckyColor" class="font-serif font-bold text-sm text-ink-900">—</span>
+                </div>
+              </div>
+
+              <!-- 開運吉時與方位 -->
+              <div class="rounded-xl bg-paper-100 border border-paper-200 p-3.5 space-y-1.5">
+                <div class="text-[11px] text-ink-500">開運吉時與方位</div>
+                <div id="fortuneLuckyTimeDir" class="font-serif font-bold text-sm text-vermilion-700">—</div>
+              </div>
+
+              <!-- 決策小提醒 -->
+              <div class="rounded-xl bg-astral-900 text-white border border-astral-gold/35 p-3.5 space-y-1">
+                <div class="text-[11px] text-astral-gold">✦ 星象決策小提醒</div>
+                <div id="fortuneDecisionTip" class="text-xs text-slate-200 leading-snug">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. 【針對本三盤命局繼續追問】互動對話區 -->
+      <div class="zen-card rounded-2xl p-5 sm:p-8 space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">💬</span>
+          <h3 class="font-serif font-bold text-lg text-ink-900">針對本三盤命局繼續追問</h3>
+          <span class="text-xs text-ink-500">（無需重填生辰，AI 將同步參照您的八字、紫微與占星盤解答）</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input
+            type="text"
+            id="followUpInput"
+            placeholder="輸入您想進一步了解的細節，例如：適合往哪個方位發展？或與某星座／主星特質對象如何相處？"
+            onkeydown="if(event.key==='Enter') askSingleFollowUp()"
+            class="flex-1 rounded-xl border border-paper-300 bg-white/90 px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-vermilion-600"
+          />
+          <button
+            type="button"
+            id="followUpBtn"
+            onclick="askSingleFollowUp()"
+            class="px-5 py-2.5 rounded-xl bg-ink-900 hover:bg-ziwei-900 text-white text-sm font-medium transition shrink-0 flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <span>請教三盤顧問</span>
+          </button>
+        </div>
+
+        <div id="followUpHistory" class="space-y-3"></div>
+      </div>
+    </section>
+
+    <!-- ==================== 第四部分：雙人合盤專屬分析視圖 ==================== -->
+    <section id="synastryResultSection" class="hidden space-y-7 animate-fade-up">
+      <div class="zen-card rounded-2xl p-5 sm:p-8 space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-paper-200 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="seal-stamp px-2.5 py-0.5 rounded text-xs font-bold bg-vermilion-50">雙人合參</span>
+            <h3 class="font-serif text-xl font-bold text-ink-900">
+              三盤雙人合盤報告：<span id="synResultRelTitle" class="text-vermilion-600">情侶婚姻契合度</span>
+            </h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="copySynastryReport()"
+              class="px-3 py-1.5 rounded-lg border border-gold-500/45 bg-gold-100/70 hover:bg-gold-100 text-xs font-medium text-ink-900 transition">
+              📋 複製合盤報告
+            </button>
+            <button type="button" onclick="scrollToForm()"
+              class="px-3 py-1.5 rounded-lg border border-paper-300 bg-white hover:bg-paper-100 text-xs font-medium text-ink-700 transition">
+              返回修改生辰
+            </button>
+          </div>
+        </div>
+
+        <!-- 雙方三盤核心指標並排對比卡 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- 甲方三盤摘要 -->
+          <div class="rounded-2xl bg-white/95 border-2 border-vermilion-600/35 p-5 space-y-3">
+            <div class="flex items-center justify-between border-b border-paper-200 pb-2.5">
+              <span id="synCardNameA" class="font-serif font-bold text-base text-vermilion-700">甲方</span>
+              <span id="synCardCalA" class="text-xs text-ink-500">—</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div class="bg-paper-100 rounded-xl p-2.5 border border-paper-200">
+                <div class="text-[10px] text-ink-500">☯ 八字日主喜用</div>
+                <div id="synCardBaziA" class="font-serif font-bold text-ink-900 mt-0.5">—</div>
+              </div>
+              <div class="bg-ziwei-900 text-white rounded-xl p-2.5">
+                <div class="text-[10px] text-ziwei-light/80">✵ 紫微命宮/夫妻</div>
+                <div id="synCardZiweiA" class="font-serif font-bold text-ziwei-gold mt-0.5">—</div>
+              </div>
+              <div class="bg-astral-900 text-white rounded-xl p-2.5">
+                <div class="text-[10px] text-astral-light/80">✦ 日月金星座</div>
+                <div id="synCardAstroA" class="font-serif font-bold text-astral-gold mt-0.5">—</div>
+              </div>
+            </div>
+            <p id="synCardSummaryA" class="text-xs text-ink-600 leading-relaxed"></p>
+          </div>
+
+          <!-- 乙方三盤摘要 -->
+          <div class="rounded-2xl bg-white/95 border-2 border-ziwei-700/35 p-5 space-y-3">
+            <div class="flex items-center justify-between border-b border-paper-200 pb-2.5">
+              <span id="synCardNameB" class="font-serif font-bold text-base text-ziwei-900">乙方</span>
+              <span id="synCardCalB" class="text-xs text-ink-500">—</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div class="bg-paper-100 rounded-xl p-2.5 border border-paper-200">
+                <div class="text-[10px] text-ink-500">☯ 八字日主喜用</div>
+                <div id="synCardBaziB" class="font-serif font-bold text-ink-900 mt-0.5">—</div>
+              </div>
+              <div class="bg-ziwei-900 text-white rounded-xl p-2.5">
+                <div class="text-[10px] text-ziwei-light/80">✵ 紫微命宮/夫妻</div>
+                <div id="synCardZiweiB" class="font-serif font-bold text-ziwei-gold mt-0.5">—</div>
+              </div>
+              <div class="bg-astral-900 text-white rounded-xl p-2.5">
+                <div class="text-[10px] text-astral-light/80">✦ 日月金星座</div>
+                <div id="synCardAstroB" class="font-serif font-bold text-astral-gold mt-0.5">—</div>
+              </div>
+            </div>
+            <p id="synCardSummaryB" class="text-xs text-ink-600 leading-relaxed"></p>
+          </div>
+        </div>
+
+        <!-- 四維契合度進度條 -->
+        <div class="rounded-2xl bg-paper-100/90 border border-gold-500/35 p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h4 class="font-serif font-bold text-base text-ink-900">三盤四維契合度評估</h4>
+            <span id="synOverallHeadline" class="text-xs font-bold px-3 py-1 rounded-full bg-vermilion-600 text-white">—</span>
+          </div>
+          <div id="synScoresGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+        </div>
+
+        <!-- 三盤合參深度解析卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <article class="bg-white/95 rounded-xl p-5 border border-vermilion-600/25 space-y-2">
+            <h4 class="font-serif font-bold text-base text-vermilion-700 flex items-center gap-1.5">
+              <span>☯</span><span>八字五行生剋與干支合沖</span>
+            </h4>
+            <p id="synBaziDeep" class="text-sm text-ink-700 leading-relaxed whitespace-pre-line"></p>
+          </article>
+
+          <article class="bg-ziwei-900 text-white rounded-xl p-5 border border-ziwei-gold/40 space-y-2">
+            <h4 class="font-serif font-bold text-base text-ziwei-gold flex items-center gap-1.5">
+              <span>✵</span><span>紫微宮位飛星與四化互動</span>
+            </h4>
+            <p id="synZiweiDeep" class="text-sm text-slate-200 leading-relaxed whitespace-pre-line"></p>
+          </article>
+
+          <article class="bg-astral-900 text-white rounded-xl p-5 border border-astral-gold/40 space-y-2">
+            <h4 class="font-serif font-bold text-base text-astral-gold flex items-center gap-1.5">
+              <span>✦</span><span>占星日月金火相位解析</span>
+            </h4>
+            <p id="synAstroDeep" class="text-sm text-slate-200 leading-relaxed whitespace-pre-line"></p>
+          </article>
+        </div>
+
+        <!-- 相處磨合與升溫建議 -->
+        <div class="rounded-xl bg-gold-100/70 border border-gold-500/40 p-5 space-y-2">
+          <h4 class="font-serif font-bold text-base text-ink-900">🧭 專屬相處磨合與關係升溫行動建議</h4>
+          <p id="synActionAdvice" class="text-sm text-ink-800 leading-relaxed whitespace-pre-line"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 【時辰反推（定時辰）引導小工具 Modal】 ==================== -->
+  <div id="hourDeductionModal" class="hidden fixed inset-0 z-50 bg-ink-900/65 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="zen-card rounded-2xl max-w-2xl w-full p-5 sm:p-7 space-y-5 shadow-2xl border-2 border-ziwei-gold/60 my-auto animate-fade-up">
+      <div class="flex items-start justify-between gap-3 border-b border-paper-200 pb-3.5">
+        <div class="space-y-1">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-ziwei-900 text-ziwei-gold text-xs font-bold">
+            <span>🧭 定時辰引導小工具</span>
+          </div>
+          <h3 class="font-serif text-lg sm:text-xl font-bold text-ink-900">透過人生大事與外在氣質反推生辰時辰</h3>
+        </div>
+        <button type="button" onclick="closeHourDeductionModal()" class="w-8 h-8 rounded-lg bg-paper-200 hover:bg-vermilion-600 hover:text-white text-ink-700 flex items-center justify-center transition">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <!-- 1. 出生日期確認提示 -->
+        <div class="rounded-xl bg-paper-100 p-3 border border-paper-200 text-xs text-ink-700 flex items-center justify-between">
+          <span>目前反推基準日期：<strong id="deductDatePreview" class="text-ink-900">—</strong></span>
+          <span class="text-ink-500">（若需更改請先於表單調整日期）</span>
+        </div>
+
+        <!-- 2. 大致出生時段 -->
+        <div class="space-y-1.5">
+          <label class="block text-xs sm:text-sm font-bold text-ink-900">一、您或家人印象中的大致出生時段：</label>
+          <select id="deductTimeWindow" class="w-full rounded-xl border border-paper-300 bg-white px-3.5 py-2.5 text-sm text-ink-900 focus:outline-none focus:border-ziwei-900">
+            <option value="完全不確定（全天十二時辰比對）">完全不確定（全天十二時辰比對）</option>
+            <option value="清晨 (03:00–07:00 寅/卯時)">清晨 (03:00–07:00 寅/卯時)</option>
+            <option value="上午 (07:00–11:00 辰/巳時)">上午 (07:00–11:00 辰/巳時)</option>
+            <option value="中午至下午 (11:00–17:00 午/未/申時)">中午至下午 (11:00–17:00 午/未/申時)</option>
+            <option value="傍晚至晚上 (17:00–21:00 酉/戌時)">傍晚至晚上 (17:00–21:00 酉/戌時)</option>
+            <option value="深夜至子夜 (21:00–03:00 亥/子/丑時)">深夜至子夜 (21:00–03:00 亥/子/丑時)</option>
+          </select>
+        </div>
+
+        <!-- 3. 過去人生重要年份與事件 -->
+        <div class="space-y-2">
+          <label class="block text-xs sm:text-sm font-bold text-ink-900">二、請填寫 1～2 項過去人生重要年份與事件（用於校準大運流年與宮位）：</label>
+          <textarea
+            id="deductLifeEvents"
+            rows="2"
+            placeholder="例如：2020年考上理想研究所；2024年經歷感情重大轉折或轉換工作跑道"
+            class="w-full rounded-xl border border-paper-300 bg-white px-3.5 py-2 text-sm text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-ziwei-900"
+          ></textarea>
+          <div class="flex flex-wrap gap-1.5 text-[11px]">
+            <span class="text-ink-500">點擊填入參考：</span>
+            <button type="button" onclick="appendDeductEvent('2020年學業考試重大突破')" class="px-2 py-0.5 rounded bg-paper-200 hover:bg-gold-100 text-ink-700">+ 2020年學業突破</button>
+            <button type="button" onclick="appendDeductEvent('2024年感情重大轉折')" class="px-2 py-0.5 rounded bg-paper-200 hover:bg-gold-100 text-ink-700">+ 2024年感情轉折</button>
+            <button type="button" onclick="appendDeductEvent('2025年轉職升遷')" class="px-2 py-0.5 rounded bg-paper-200 hover:bg-gold-100 text-ink-700">+ 2025年轉職升遷</button>
+          </div>
+        </div>
+
+        <!-- 4. 外在氣質與第一印象 -->
+        <div class="space-y-1.5">
+          <label class="block text-xs sm:text-sm font-bold text-ink-900">三、別人對您的第一印象或外在氣質（輔助紫微命宮與上升星座校對）：</label>
+          <input
+            type="text"
+            id="deductPersonality"
+            placeholder="例如：外表冷靜理性但內心感性、做事講求效率、或給人親切溫暖的感覺"
+            class="w-full rounded-xl border border-paper-300 bg-white px-3.5 py-2 text-sm text-ink-900 placeholder:text-ink-300 focus:outline-none focus:border-ziwei-900"
+          />
+        </div>
+
+        <button
+          type="button"
+          id="runDeductBtn"
+          onclick="runBirthHourDeduction()"
+          class="w-full py-3 rounded-xl bg-gradient-to-r from-ziwei-900 to-astral-900 hover:opacity-95 text-ziwei-light font-serif font-bold text-sm sm:text-base shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>🔮 開始 AI 三盤反推最可能時辰</span>
+        </button>
+
+        <!-- 反推結果區 -->
+        <div id="deductResultContainer" class="hidden space-y-3 pt-2 border-t border-paper-200">
+          <p id="deductSummaryText" class="text-xs text-ink-700 bg-gold-100/70 p-3 rounded-xl border border-gold-500/30 leading-relaxed"></p>
+          <div id="deductCandidatesList" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 頁尾 -->
+  <footer class="w-full border-t border-paper-200 py-6 text-center text-xs text-ink-500 bg-paper-50/70">
+    <div class="max-w-7xl mx-auto px-4 space-y-1">
+      <p class="font-serif text-ink-700">玄樞三垣 · 東方子平八字 × 紫微斗數 × 西方占星 AI 命理台</p>
+      <p>三盤合參旨在洞見天賦與趨勢，順勢而為、修心造命，主導權始終在您手中。</p>
+    </div>
+  </footer>
+
+  <!-- 非阻塞式訊息提示 Toast -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none max-w-sm w-[calc(100%-2.5rem)]"></div>
+
+  <script>
+    // ==================== 全域狀態與常數設定 ====================
+    const GEMINI_ENDPOINT = "/api/ai/generate";
+    const STORAGE_KEY = "xuanshu_sanyuan_saved_chart_v1";
+
+    const appState = {
+      analysisMode: "single", // 'single' | 'synastry'
+      singleGender: "男 (乾造)",
+      singleCalendarMode: "gregorian", // 'gregorian' | 'lunar' | 'free'
+      singleUnknownTime: false,
+      singleTimeType: "shichen", // 'shichen' | 'exact'
+      selectedTopic: "愛情姻緣",
+      synastryRelation: "情侶婚姻契合度",
+
+      // 個人三盤排盤完整狀態
+      currentChart: null,
+      topicReadingsCache: {},
+      fiveYearTimeline: [],
+      selectedTimelineYear: "2026",
+      fortunePeriod: "daily", // 'daily' | 'weekly'
+      fortuneCache: { daily: null, weekly: null },
+
+      // 雙人合盤結果快取
+      currentSynastryResult: null
+    };
+
+    // 東方五行色標（依規格精準配色）
+    const ELEMENT_STYLES = {
+      "木": { label: "木", color: "#2E7D5B", bg: "#E8F5EF", border: "#A3D9C1", barBg: "#2E7D5B" },
+      "火": { label: "火", color: "#C83E2B", bg: "#FDECE9", border: "#F3ACA2", barBg: "#C83E2B" },
+      "土": { label: "土", color: "#B8862D", bg: "#FBF4E4", border: "#EAD098", barBg: "#B8862D" },
+      "金": { label: "金", color: "#A6822E", bg: "#F9F3E1", border: "#E5CE8B", barBg: "#A6822E" },
+      "水": { label: "水", color: "#255C8A", bg: "#E9F2FA", border: "#A5C7E4", barBg: "#255C8A" },
+      "無": { label: "待定", color: "#787067", bg: "#F3ECE0", border: "#D4C8B4", barBg: "#A89F94" }
+    };
+
+    // 問事主題對應的紫微重點宮位映射
+    const TOPIC_TO_ZIWEI_PALACE = {
+      "愛情姻緣": "夫妻宮",
+      "事業職場": "官祿宮",
+      "財運理財": "財帛宮",
+      "學業考運": "官祿宮",
+      "健康身心": "福德宮",
+      "整體流年": "命宮"
+    };
+
+    // ==================== 初始化頁面 ====================
+    document.addEventListener("DOMContentLoaded", () => {
+      initDateSelectors();
+      initTimeSelectors();
+      refreshStorageButtonsState();
+    });
+
+    function initDateSelectors() {
+      const gregYear = document.getElementById("sGregYear");
+      const gregMonth = document.getElementById("sGregMonth");
+      const gregDay = document.getElementById("sGregDay");
+      const lunarYear = document.getElementById("sLunarYear");
+      const lunarMonth = document.getElementById("sLunarMonth");
+      const lunarDay = document.getElementById("sLunarDay");
+
+      for (let y = 2026; y >= 1930; y--) {
+        const roc = y - 1911;
+        const label = roc > 0 ? `${y} 年（民國 ${roc} 年）` : `${y} 年`;
+        const o1 = new Option(label, `${y}年`);
+        const o2 = new Option(label, `${y}年`);
+        if (y === 1995) { o1.selected = true; o2.selected = true; }
+        gregYear.add(o1);
+        lunarYear.add(o2);
+      }
+
+      for (let m = 1; m <= 12; m++) {
+        const o = new Option(`${m} 月`, `${m}月`);
+        if (m === 8) o.selected = true;
+        gregMonth.add(o);
+      }
+      for (let d = 1; d <= 31; d++) {
+        const o = new Option(`${d} 日`, `${d}日`);
+        if (d === 15) o.selected = true;
+        gregDay.add(o);
+      }
+
+      const lunarMonths = ["正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月(十一月)", "臘月(十二月)"];
+      lunarMonths.forEach((m, idx) => {
+        const o = new Option(m, m);
+        if (idx === 3) o.selected = true;
+        lunarMonth.add(o);
+      });
+
+      const lunarDays = [
+        "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
+        "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十",
+        "廿一", "廿二", "廿三", "廿四", "廿五", "廿六", "廿七", "廿八", "廿九", "三十"
+      ];
+      lunarDays.forEach((d, idx) => {
+        const o = new Option(d, d);
+        if (idx === 24) o.selected = true;
+        lunarDay.add(o);
+      });
+    }
+
+    function initTimeSelectors() {
+      const hSel = document.getElementById("sExactHour");
+      const mSel = document.getElementById("sExactMinute");
+      for (let h = 0; h < 24; h++) {
+        const hh = String(h).padStart(2, "0");
+        const o = new Option(`${hh} 時`, hh);
+        if (h === 6) o.selected = true;
+        hSel.add(o);
+      }
+      for (let m = 0; m < 60; m++) {
+        const mm = String(m).padStart(2, "0");
+        const o = new Option(`${mm} 分`, mm);
+        if (m === 0) o.selected = true;
+        mSel.add(o);
+      }
+    }
+
+    // ==================== Toast 提示與基礎互動 ====================
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      const style = type === "error"
+        ? "bg-vermilion-700 text-white border-vermilion-600"
+        : "bg-ink-900 text-paper-50 border-gold-500/45";
+      toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-xl text-xs sm:text-sm flex items-center justify-between gap-3 animate-fade-up ${style}`;
+      toast.innerHTML = `<span>${escapeHtml(message)}</span><button type="button" onclick="this.parentElement.remove()" class="text-white/70 hover:text-white text-xs">✕</button>`;
+      container.appendChild(toast);
+      setTimeout(() => { if (toast.parentElement) toast.remove(); }, 4200);
+    }
+
+    function scrollToForm() {
+      document.getElementById("inputSection").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function switchAnalysisMode(mode) {
+      appState.analysisMode = mode;
+      const singleTab = document.getElementById("modeSingleTab");
+      const synTab = document.getElementById("modeSynastryTab");
+      const singleForm = document.getElementById("singleFormContainer");
+      const synForm = document.getElementById("synastryFormContainer");
+      const hint = document.getElementById("modeDescriptionHint");
+
+      if (mode === "single") {
+        singleTab.className = "flex-1 sm:flex-initial px-5 py-2.5 rounded-lg text-sm font-serif font-bold transition bg-vermilion-600 text-white shadow-sm flex items-center justify-center gap-2";
+        synTab.className = "flex-1 sm:flex-initial px-5 py-2.5 rounded-lg text-sm font-serif font-bold transition text-ink-700 hover:text-ink-900 flex items-center justify-center gap-2";
+        singleForm.classList.remove("hidden");
+        synForm.classList.add("hidden");
+        hint.textContent = "個人模式：同步推演八字四柱、紫微十二宮四化與西方星盤，並生成五年流年與開運籤詩。";
+      } else {
+        synTab.className = "flex-1 sm:flex-initial px-5 py-2.5 rounded-lg text-sm font-serif font-bold transition bg-ziwei-900 text-ziwei-light shadow-sm flex items-center justify-center gap-2";
+        singleTab.className = "flex-1 sm:flex-initial px-5 py-2.5 rounded-lg text-sm font-serif font-bold transition text-ink-700 hover:text-ink-900 flex items-center justify-center gap-2";
+        synForm.classList.remove("hidden");
+        singleForm.classList.add("hidden");
+        hint.textContent = "雙人合盤模式：支援情侶婚姻、商業合夥與親友溝通，交叉比對雙方三盤契合度。";
+      }
+    }
+
+    function selectSingleGender(btn) {
+      appState.singleGender = btn.dataset.gender;
+      document.querySelectorAll(".single-gender-btn").forEach(b => {
+        b.className = "single-gender-btn py-2.5 px-3 rounded-xl border text-sm font-medium transition flex items-center justify-center gap-1.5 border-paper-300 bg-white/80 text-ink-700 hover:border-gold-500";
+      });
+      btn.className = "single-gender-btn py-2.5 px-3 rounded-xl border text-sm font-medium transition flex items-center justify-center gap-1.5 border-vermilion-600 bg-vermilion-50 text-vermilion-700 shadow-sm";
+    }
+
+    function switchSingleCalendarMode(mode) {
+      appState.singleCalendarMode = mode;
+      const map = {
+        gregorian: { btn: "calGregBtn", panel: "singleGregPanel" },
+        lunar: { btn: "calLunarBtn", panel: "singleLunarPanel" },
+        free: { btn: "calFreeBtn", panel: "singleFreePanel" }
+      };
+      Object.keys(map).forEach(k => {
+        const b = document.getElementById(map[k].btn);
+        const p = document.getElementById(map[k].panel);
+        if (k === mode) {
+          b.className = "px-3 py-1 rounded-lg text-xs font-medium transition bg-white text-ink-900 shadow-sm";
+          p.classList.remove("hidden");
+        } else {
+          b.className = "px-3 py-1 rounded-lg text-xs font-medium transition text-ink-500 hover:text-ink-900";
+          p.classList.add("hidden");
+        }
+      });
+    }
+
+    function toggleSingleUnknownTime() {
+      const checked = document.getElementById("sUnknownTimeToggle").checked;
+      appState.singleUnknownTime = checked;
+      document.getElementById("sKnownTimePanel").classList.toggle("hidden", checked);
+      document.getElementById("sUnknownTimeNotice").classList.toggle("hidden", !checked);
+    }
+
+    function switchSingleTimeType(type) {
+      appState.singleTimeType = type;
+      const shichenBtn = document.getElementById("sTimeTypeShichenBtn");
+      const exactBtn = document.getElementById("sTimeTypeExactBtn");
+      if (type === "shichen") {
+        shichenBtn.className = "px-2.5 py-1 rounded-md bg-white text-ink-900 font-medium shadow-sm";
+        exactBtn.className = "px-2.5 py-1 rounded-md text-ink-500 hover:text-ink-900";
+        document.getElementById("sShichenWrapper").classList.remove("hidden");
+        document.getElementById("sExactTimeWrapper").classList.add("hidden");
+      } else {
+        exactBtn.className = "px-2.5 py-1 rounded-md bg-white text-ink-900 font-medium shadow-sm";
+        shichenBtn.className = "px-2.5 py-1 rounded-md text-ink-500 hover:text-ink-900";
+        document.getElementById("sExactTimeWrapper").classList.remove("hidden");
+        document.getElementById("sShichenWrapper").classList.add("hidden");
+      }
+    }
+
+    function selectSingleTopic(cardBtn) {
+      appState.selectedTopic = cardBtn.dataset.topic;
+      document.querySelectorAll(".s-topic-card").forEach(c => {
+        c.className = "s-topic-card text-left p-3.5 rounded-xl border border-paper-300 bg-white/80 hover:border-gold-500 transition flex flex-col justify-between gap-1";
+        c.querySelector(".s-topic-badge").classList.add("hidden");
+      });
+      cardBtn.className = "s-topic-card text-left p-3.5 rounded-xl border-2 border-vermilion-600 bg-vermilion-50/80 shadow-sm transition flex flex-col justify-between gap-1";
+      cardBtn.querySelector(".s-topic-badge").classList.remove("hidden");
+    }
+
+    function selectSynastryRelation(btn) {
+      appState.synastryRelation = btn.dataset.rel;
+      document.querySelectorAll(".syn-rel-btn").forEach(b => {
+        b.className = "syn-rel-btn p-3.5 rounded-xl border border-paper-300 bg-white/80 hover:border-gold-500 text-left transition";
+        b.querySelector("div").classList.remove("text-vermilion-700");
+        b.querySelector("div").classList.add("text-ink-900");
+      });
+      btn.className = "syn-rel-btn p-3.5 rounded-xl border-2 border-vermilion-600 bg-vermilion-50/80 text-left transition shadow-sm";
+      btn.querySelector("div").classList.remove("text-ink-900");
+      btn.querySelector("div").classList.add("text-vermilion-700");
+    }
+
+    // ==================== 一鍵範例測試 ====================
+    function applyDemoPreset(num) {
+      switchAnalysisMode("single");
+      const genderBtns = document.querySelectorAll(".single-gender-btn");
+      const topicCards = document.querySelectorAll(".s-topic-card");
+
+      if (num === 1) {
+        // 範例一：1991 農曆四月廿五 卯時（完整三盤）
+        selectSingleGender(genderBtns[0]); // 乾造（男）
+        switchSingleCalendarMode("lunar");
+        document.getElementById("sLunarYear").value = "1991年";
+        document.getElementById("sLunarMonth").value = "四月";
+        document.getElementById("sLunarDay").value = "廿五";
+        document.getElementById("sIsLeapMonth").checked = false;
+
+        document.getElementById("sUnknownTimeToggle").checked = false;
+        toggleSingleUnknownTime();
+        switchSingleTimeType("shichen");
+        document.getElementById("sShichenSelect").value = "卯時 (05:00-07:00)";
+        document.getElementById("sBirthLocation").value = "台灣";
+
+        selectSingleTopic(topicCards[1]); // 事業職場
+        document.getElementById("sExtraContext").value = "想結合八字格局、紫微官祿宮四化與占星事業星，評估 2026–2027 年的職涯發展突破點。";
+        showToast("已載入「範例一：1991 農曆四月廿五 卯時（完整三盤）」，點擊下方按鈕即可排盤！");
+      } else {
+        // 範例二：1998 國曆10月14日（時辰不詳測試）
+        selectSingleGender(genderBtns[1]); // 坤造（女）
+        switchSingleCalendarMode("gregorian");
+        document.getElementById("sGregYear").value = "1998年";
+        document.getElementById("sGregMonth").value = "10月";
+        document.getElementById("sGregDay").value = "14日";
+
+        document.getElementById("sUnknownTimeToggle").checked = true;
+        toggleSingleUnknownTime();
+
+        selectSingleTopic(topicCards[0]); // 愛情姻緣
+        document.getElementById("sExtraContext").value = "目前不知道確切出生時辰，想先透過三柱與太陽天秤座特質看感情走向。";
+        showToast("已載入「範例二：1998 國曆10月14日（時辰不詳測試）」，可體驗三柱推命或開啟時辰反推！");
+      }
+      document.getElementById("singleSubmitBtn").scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    // ==================== localStorage 本地命盤記憶管理 ====================
+    function refreshStorageButtonsState() {
+      const saveBtn = document.getElementById("saveChartBtn");
+      const loadBtn = document.getElementById("loadChartBtn");
+      const clearBtn = document.getElementById("clearChartBtn");
+      const badge = document.getElementById("savedChartBadge");
+
+      if (appState.currentChart) {
+        saveBtn.disabled = false;
+        saveBtn.className = "px-2.5 py-1.5 rounded-lg border border-gold-500/50 bg-gold-100/80 hover:bg-gold-100 text-ink-900 font-medium transition flex items-center gap-1 cursor-pointer";
+      } else {
+        saveBtn.disabled = true;
+        saveBtn.className = "px-2.5 py-1.5 rounded-lg border border-gold-500/30 bg-white/60 text-ink-400 cursor-not-allowed transition flex items-center gap-1";
+      }
+
+      let savedRaw = null;
+      try {
+        savedRaw = localStorage.getItem(STORAGE_KEY);
+      } catch (e) {
+        savedRaw = null;
+      }
+
+      if (savedRaw) {
+        badge.classList.remove("hidden");
+        clearBtn.classList.remove("hidden");
+        loadBtn.classList.remove("opacity-60");
+      } else {
+        badge.classList.add("hidden");
+        clearBtn.classList.add("hidden");
+      }
+    }
+
+    function saveCurrentChartToStorage() {
+      if (!appState.currentChart) {
+        showToast("請先完成一次個人三盤排盤，再儲存命盤記憶。", "error");
+        return;
+      }
+      const payloadToSave = {
+        savedAt: new Date().toLocaleString("zh-TW"),
+        selectedTopic: appState.selectedTopic,
+        currentChart: appState.currentChart,
+        topicReadingsCache: appState.topicReadingsCache,
+        fiveYearTimeline: appState.fiveYearTimeline,
+        selectedTimelineYear: appState.selectedTimelineYear,
+        fortuneCache: appState.fortuneCache
+      };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payloadToSave));
+        refreshStorageButtonsState();
+        showToast("已將您的「八字 × 紫微 × 星座」三盤命局儲存至本地瀏覽器！");
+      } catch (e) {
+        showToast("瀏覽器本地儲存空間受限，無法寫入記憶。", "error");
+      }
+    }
+
+    function loadSavedChartFromStorage() {
+      let savedRaw = null;
+      try {
+        savedRaw = localStorage.getItem(STORAGE_KEY);
+      } catch (e) {
+        savedRaw = null;
+      }
+      if (!savedRaw) {
+        showToast("目前尚未儲存任何命盤紀錄，請先排盤後點擊「儲存本命盤」。", "error");
+        return;
+      }
+      try {
+        const parsed = JSON.parse(savedRaw);
+        appState.selectedTopic = parsed.selectedTopic || "愛情姻緣";
+        appState.currentChart = parsed.currentChart;
+        appState.topicReadingsCache = parsed.topicReadingsCache || {};
+        appState.fiveYearTimeline = parsed.fiveYearTimeline || [];
+        appState.selectedTimelineYear = parsed.selectedTimelineYear || "2026";
+        appState.fortuneCache = parsed.fortuneCache || { daily: null, weekly: null };
+        appState.fortunePeriod = "daily";
+
+        switchAnalysisMode("single");
+        document.getElementById("synastryResultSection").classList.add("hidden");
+        document.getElementById("singleResultSection").classList.remove("hidden");
+
+        renderSingleDashboard(appState.selectedTopic);
+        refreshStorageButtonsState();
+        document.getElementById("singleResultSection").scrollIntoView({ behavior: "smooth", block: "start" });
+        showToast(`已成功載入已存命盤（儲存時間：${parsed.savedAt || "近期"}）！`);
+      } catch (e) {
+        showToast("讀取已存命盤時發生格式異常，請重新排盤。", "error");
+      }
+    }
+
+    function clearSavedChartStorage() {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {
+        // ignore
+      }
+      refreshStorageButtonsState();
+      showToast("已清除本地瀏覽器儲存的命盤記憶。");
+    }
+
+    // ==================== Gemini API 呼叫封裝（含指數退避重試） ====================
+    async function callGeminiWithRetry(payload, maxRetries = 3) {
+      let delay = 1000;
+      for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+          const response = await fetch(GEMINI_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const result = await response.json();
+          const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (!text) {
+            throw new Error("Empty model response");
+          }
+          return JSON.parse(text);
+        } catch (err) {
+          if (attempt === maxRetries) throw err;
+          await new Promise(resolve => setTimeout(resolve, delay));
+          delay *= 2;
+        }
+      }
+    }
+
+    // ==================== 收集個人生辰輸入摘要 ====================
+    function getSingleDateSummary() {
+      if (appState.singleCalendarMode === "gregorian") {
+        return `國曆（西元）${document.getElementById("sGregYear").value}${document.getElementById("sGregMonth").value}${document.getElementById("sGregDay").value}`;
+      } else if (appState.singleCalendarMode === "lunar") {
+        const leap = document.getElementById("sIsLeapMonth").checked ? "（閏月）" : "";
+        return `農曆（陰曆）${document.getElementById("sLunarYear").value}${leap}${document.getElementById("sLunarMonth").value}${document.getElementById("sLunarDay").value}`;
+      } else {
+        const freeVal = document.getElementById("sFreeDateText").value.trim();
+        return freeVal ? `自由輸入日期：「${freeVal}」（請自動辨識國農曆並換算）` : null;
+      }
+    }
+
+    function getSingleTimeSummary() {
+      const loc = document.getElementById("sBirthLocation").value.trim() || "台灣";
+      if (appState.singleUnknownTime) {
+        return { text: "時辰不詳 / 未知（採三柱推命模式）", location: loc };
+      }
+      if (appState.singleTimeType === "shichen") {
+        return { text: `${document.getElementById("sShichenSelect").value}，出生地區：${loc}`, location: loc };
+      }
+      const hh = document.getElementById("sExactHour").value;
+      const mm = document.getElementById("sExactMinute").value;
+      return { text: `精確時間 ${hh}:${mm}，出生地區：${loc}`, location: loc };
+    }
+
+    // ==================== 時辰反推（定時辰）引導小工具邏輯 ====================
+    function openHourDeductionModal() {
+      const dateStr = getSingleDateSummary() || "尚未填寫完整日期（請先於主表單選擇年月日）";
+      document.getElementById("deductDatePreview").textContent = `${appState.singleGender}｜${dateStr}`;
+      document.getElementById("hourDeductionModal").classList.remove("hidden");
+    }
+
+    function closeHourDeductionModal() {
+      document.getElementById("hourDeductionModal").classList.add("hidden");
+    }
+
+    function appendDeductEvent(text) {
+      const area = document.getElementById("deductLifeEvents");
+      area.value = area.value.trim() ? `${area.value.trim()}；${text}` : text;
+    }
+
+    async function runBirthHourDeduction() {
+      const dateStr = getSingleDateSummary();
+      if (!dateStr) {
+        showToast("請先在主表單填寫出生年月日，再進行時辰反推！", "error");
+        closeHourDeductionModal();
+        return;
+      }
+
+      const timeWindow = document.getElementById("deductTimeWindow").value;
+      const lifeEvents = document.getElementById("deductLifeEvents").value.trim();
+      const personality = document.getElementById("deductPersonality").value.trim();
+
+      if (!lifeEvents && !personality) {
+        showToast("請至少填寫一項過去人生重要事件或外在氣質描述，以利 AI 精準比對時辰！", "error");
+        return;
+      }
+
+      const btn = document.getElementById("runDeductBtn");
+      btn.disabled = true;
+      btn.innerHTML = `<span class="w-4 h-4 border-2 border-ziwei-gold border-t-transparent rounded-full animate-spin"></span><span>正在交叉比對八字大運、紫微命宮與上升星座…</span>`;
+
+      const payload = {
+        contents: [{
+          parts: [{
+            text: `請協助求測者進行「定時辰（時辰反推）」：
+- 命造性別：${appState.singleGender}
+- 出生年月日：${dateStr}
+- 印象中大致時段：${timeWindow}
+- 過去人生重要年份與事件：${lifeEvents || "未填寫"}
+- 外在氣質與第一印象：${personality || "未填寫"}
+
+請結合八字時柱與大運流年應期、紫微斗數命宮主星特質、以及西方上升星座外在表現，推演出最可能的 2 個候選時辰。`
+          }]
+        }],
+        systemInstruction: {
+          parts: [{
+            text: "你是精通八字定時辰、紫微定盤與占星生時校正的專業命理師，請以客觀、條理分明的繁體中文給出 2 個最吻合的候選時辰與推理依據。"
+          }]
+        },
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              summary: { type: "STRING", description: "整體定時辰思路簡述（約60-90字）" },
+              candidates: {
+                type: "ARRAY",
+                items: {
+                  type: "OBJECT",
+                  properties: {
+                    shichenValue: {
+                      type: "STRING",
+                      enum: [
+                        "子時 (23:00-01:00)", "丑時 (01:00-03:00)", "寅時 (03:00-05:00)", "卯時 (05:00-07:00)",
+                        "辰時 (07:00-09:00)", "巳時 (09:00-11:00)", "午時 (11:00-13:00)", "未時 (13:00-15:00)",
+                        "申時 (15:00-17:00)", "酉時 (17:00-19:00)", "戌時 (19:00-21:00)", "亥時 (21:00-23:00)"
+                      ]
+                    },
+                    probability: { type: "STRING", description: "契合度百分比，例如：契合度 86%" },
+                    ziweiAndRisingMatch: { type: "STRING", description: "紫微命宮主星與上升星座外在氣質吻合點" },
+                    eventReason: { type: "STRING", description: "過去人生事件與該時辰大運流年宮位的應驗推理（約70-110字）" }
+                  },
+                  required: ["shichenValue", "probability", "ziweiAndRisingMatch", "eventReason"]
+                }
+              }
+            },
+            required: ["summary", "candidates"]
+          }
+        }
+      };
+
+      try {
+        const res = await callGeminiWithRetry(payload);
+        document.getElementById("deductSummaryText").textContent = res.summary;
+        const listEl = document.getElementById("deductCandidatesList");
+        listEl.innerHTML = (res.candidates || []).slice(0, 2).map((c, idx) => `
+          <div class="rounded-xl bg-white border-2 ${idx === 0 ? 'border-ziwei-gold' : 'border-paper-300'} p-4 flex flex-col justify-between space-y-3 shadow-sm">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-serif font-bold text-base text-ziwei-900">${escapeHtml(c.shichenValue)}</span>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-ziwei-900 text-ziwei-gold font-bold">${escapeHtml(c.probability)}</span>
+              </div>
+              <div class="text-xs font-medium text-vermilion-700">${escapeHtml(c.ziweiAndRisingMatch)}</div>
+              <p class="text-xs text-ink-700 leading-relaxed">${escapeHtml(c.eventReason)}</p>
+            </div>
+            <button type="button" onclick="applyDeductedShichen('${escapeHtml(c.shichenValue)}')"
+              class="w-full py-2 rounded-lg bg-vermilion-600 hover:bg-vermilion-700 text-white text-xs font-bold transition cursor-pointer">
+              ✨ 一鍵套用此推測時辰
+            </button>
+          </div>
+        `).join("");
+
+        document.getElementById("deductResultContainer").classList.remove("hidden");
+      } catch (err) {
+        showToast("時辰反推連線暫時繁忙，請稍後再試。", "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>🔮 開始 AI 三盤反推最可能時辰</span>`;
+      }
+    }
+
+    function applyDeductedShichen(shichenValue) {
+      document.getElementById("sUnknownTimeToggle").checked = false;
+      toggleSingleUnknownTime();
+      switchSingleTimeType("shichen");
+      document.getElementById("sShichenSelect").value = shichenValue;
+      closeHourDeductionModal();
+      showToast(`已將推測時辰「${shichenValue}」套用至出生時間，點擊「啟動三盤合參精算」即可排盤！`);
+    }
+
+    // ==================== 個人三盤合參精算主流程 ====================
+    async function startSingleTriadAnalysis() {
+      const dateStr = getSingleDateSummary();
+      if (!dateStr) {
+        showToast("請先輸入您的出生年月日（例如：農曆80年4月25日）", "error");
+        document.getElementById("sFreeDateText").focus();
+        return;
+      }
+
+      const timeInfo = getSingleTimeSummary();
+      const extraContext = document.getElementById("sExtraContext").value.trim();
+      const topic = appState.selectedTopic;
+
+      const submitBtn = document.getElementById("singleSubmitBtn");
+      submitBtn.disabled = true;
+      submitBtn.classList.add("opacity-60", "cursor-not-allowed");
+
+      document.getElementById("loadingSection").classList.remove("hidden");
+      document.getElementById("singleResultSection").classList.add("hidden");
+      document.getElementById("synastryResultSection").classList.add("hidden");
+      document.getElementById("loadingSection").scrollIntoView({ behavior: "smooth", block: "center" });
+
+      const steps = [
+        "正在精準換算國農曆與二十四節氣交接…",
+        "正在排定八字四柱十神與五行喜忌…",
+        "正在安紫微斗數命身宮、十二宮星曜與生年四化…",
+        "正在推算占星日月升金火與 2026–2030 流年軌跡…"
+      ];
+      let stepIdx = 0;
+      const timer = setInterval(() => {
+        stepIdx = (stepIdx + 1) % steps.length;
+        document.getElementById("loadingTitle").textContent = steps[stepIdx];
+      }, 2200);
+
+      const systemPrompt = `你是一位同時精通「東方子平八字」、「紫微斗數全書飛星四化」與「西方古典占星學」的頂級三棲命理宗師，擅長以溫潤雅緻、深入淺出、條理分明的繁體中文進行【三盤合參推演】。
+
+【三盤排盤與推演嚴格規範】
+1. 雙曆與節氣基準：將輸入日期精準換算為國曆（西元）年月日與農曆干支。八字年柱以「立春」為界，月柱嚴格以「二十四節氣十二節」交接為準。
+2. 時辰不詳處理：
+   - 若為「時辰不詳 / 未知」：八字時柱（hour）stem 填「時辰未詳」、branch 填「三柱推命」、stemElement 填「無」、branchElement 填「無」、tenGod 填「三柱推命」、hiddenStems 填空陣列 []。
+   - 紫微斗數：未知時辰時，lifePalaceStars 可標示「三柱趨勢推演（需時辰定盤）」、bodyPalace 標示「時辰未定」，但仍須排出「生年四化（祿權科忌）」以及命宮、官祿宮、財帛宮、夫妻宮、福德宮的先天星曜趨勢參考。
+   - 西方占星：太陽、金星、火星務必精準計算；未知時辰時 moonSign 與 risingSign 可標示「需出生時間解鎖」（並說明當日月亮大致落點傾向）。
+3. 五行色標欄位：stemElement 與 branchElement 必須嚴格為「木」、「火」、「土」、「金」、「水」或「無」。
+4. 紫微 corePalaces 必須包含以下 5 個核心宮位：「命宮」、「官祿宮」、「財帛宮」、「夫妻宮」、「福德宮」。
+5. 近五年流年時間軸（fiveYearTimeline）：必須完整提供 2026（丙午年）、2027（丁未年）、2028（戊申年）、2029（己酉年）、2030（庚戌年）共 5 筆資料，結合該命造的八字大運流年、紫微流年四化（如2026丙年天同化祿/廉貞化忌等）與占星木土行運。
+6. 今日開運籤詩（dailyFortune）：依據命造的八字喜用神、紫微命宮主星與太陽星座，創作一首押韻工整的四句七言開運籤詩（每句7字，共4行），搭配白話籤解、今日五行幸運穿搭色（含對應色碼 hexColor）、開運吉時方位與星象決策提醒。`;
+
+      const userPrompt = `請為以下命造進行「八字 × 紫微 × 星座」三盤合參全維度推演，並針對【${topic}】進行深度剖析：
+- 命造性別：${appState.singleGender}
+- 出生年月日：${dateStr}
+- 出生時間與地區：${timeInfo.text}
+- 是否時辰不詳：${appState.singleUnknownTime ? "是（請啟用三柱推命＋彈性星盤模式）" : "否（請排完整四柱＋十二宮＋個人行星全盤）"}
+- 當前問事類別：${topic}
+${extraContext ? `- 求測者具體問題補充：${extraContext}` : ""}
+
+請嚴格依照 JSON Schema 回傳結構化分析資料。`;
+
+      const pillarSchema = {
+        type: "OBJECT",
+        properties: {
+          stem: { type: "STRING" },
+          branch: { type: "STRING" },
+          stemElement: { type: "STRING", enum: ["木", "火", "土", "金", "水", "無"] },
+          branchElement: { type: "STRING", enum: ["木", "火", "土", "金", "水", "無"] },
+          tenGod: { type: "STRING" },
+          hiddenStems: { type: "ARRAY", items: { type: "STRING" } }
+        },
+        required: ["stem", "branch", "stemElement", "branchElement", "tenGod", "hiddenStems"]
+      };
+
+      const payload = {
+        contents: [{ parts: [{ text: userPrompt }] }],
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              calendarConversion: {
+                type: "OBJECT",
+                properties: {
+                  gregorian: { type: "STRING" },
+                  lunar: { type: "STRING" },
+                  zodiac: { type: "STRING" },
+                  solarTerm: { type: "STRING" },
+                  note: { type: "STRING" }
+                },
+                required: ["gregorian", "lunar", "zodiac", "solarTerm", "note"]
+              },
+              bazi: {
+                type: "OBJECT",
+                properties: {
+                  pillars: {
+                    type: "OBJECT",
+                    properties: { year: pillarSchema, month: pillarSchema, day: pillarSchema, hour: pillarSchema },
+                    required: ["year", "month", "day", "hour"]
+                  },
+                  dayMaster: {
+                    type: "OBJECT",
+                    properties: {
+                      stemAndElement: { type: "STRING" },
+                      strength: { type: "STRING" },
+                      favorableElements: { type: "ARRAY", items: { type: "STRING" } },
+                      unfavorableElements: { type: "ARRAY", items: { type: "STRING" } },
+                      summary: { type: "STRING" }
+                    },
+                    required: ["stemAndElement", "strength", "favorableElements", "unfavorableElements", "summary"]
+                  },
+                  fiveElements: {
+                    type: "OBJECT",
+                    properties: {
+                      wood: { type: "NUMBER" },
+                      fire: { type: "NUMBER" },
+                      earth: { type: "NUMBER" },
+                      metal: { type: "NUMBER" },
+                      water: { type: "NUMBER" }
+                    },
+                    required: ["wood", "fire", "earth", "metal", "water"]
+                  }
+                },
+                required: ["pillars", "dayMaster", "fiveElements"]
+              },
+              ziwei: {
+                type: "OBJECT",
+                properties: {
+                  fiveElementBureau: { type: "STRING", description: "五行局，例如：水二局、火六局" },
+                  lifePalaceStars: { type: "STRING", description: "命宮主星，例如：紫微天府、太陽巨門" },
+                  lifePalacePosition: { type: "STRING", description: "命宮地支宮位，例如：命宮在寅" },
+                  bodyPalaceStars: { type: "STRING", description: "身宮主星或狀態" },
+                  bodyPalacePosition: { type: "STRING", description: "身宮所在宮位，例如：身宮在官祿宮（午）" },
+                  natalSiHua: {
+                    type: "OBJECT",
+                    properties: {
+                      lu: { type: "STRING", description: "生年化祿星曜與宮位，例如：天機化祿（財帛）" },
+                      quan: { type: "STRING", description: "生年化權星曜與宮位" },
+                      ke: { type: "STRING", description: "生年化科星曜與宮位" },
+                      ji: { type: "STRING", description: "生年化忌星曜與宮位" }
+                    },
+                    required: ["lu", "quan", "ke", "ji"]
+                  },
+                  corePalaces: {
+                    type: "ARRAY",
+                    items: {
+                      type: "OBJECT",
+                      properties: {
+                        palaceName: { type: "STRING", description: "必須為：命宮、官祿宮、財帛宮、夫妻宮、福德宮 之一" },
+                        stars: { type: "STRING", description: "該宮主星與輔星" },
+                        brief: { type: "STRING", description: "一句話宮位特質摘要" }
+                      },
+                      required: ["palaceName", "stars", "brief"]
+                    }
+                  },
+                  coreInsight: { type: "STRING", description: "紫微命盤整體格局核心總評（約60-90字）" }
+                },
+                required: ["fiveElementBureau", "lifePalaceStars", "lifePalacePosition", "bodyPalaceStars", "bodyPalacePosition", "natalSiHua", "corePalaces", "coreInsight"]
+              },
+              astrology: {
+                type: "OBJECT",
+                properties: {
+                  sunSign: { type: "STRING" },
+                  sunSymbol: { type: "STRING" },
+                  sunDateRange: { type: "STRING" },
+                  sunElement: { type: "STRING" },
+                  moonSign: { type: "STRING" },
+                  moonTrait: { type: "STRING" },
+                  risingSign: { type: "STRING" },
+                  risingTrait: { type: "STRING" },
+                  venusSign: { type: "STRING" },
+                  venusTrait: { type: "STRING" },
+                  marsSign: { type: "STRING" },
+                  marsTrait: { type: "STRING" },
+                  fourElements: {
+                    type: "OBJECT",
+                    properties: {
+                      fire: { type: "NUMBER" },
+                      earth: { type: "NUMBER" },
+                      air: { type: "NUMBER" },
+                      water: { type: "NUMBER" }
+                    },
+                    required: ["fire", "earth", "air", "water"]
+                  },
+                  coreInsight: { type: "STRING", description: "占星個人行星格局核心總評（約60-90字）" }
+                },
+                required: [
+                  "sunSign", "sunSymbol", "sunDateRange", "sunElement",
+                  "moonSign", "moonTrait", "risingSign", "risingTrait",
+                  "venusSign", "venusTrait", "marsSign", "marsTrait",
+                  "fourElements", "coreInsight"
+                ]
+              },
+              reading: {
+                type: "OBJECT",
+                properties: {
+                  personalitySynergy: { type: "STRING", description: "性格共鳴與內外反差（八字日主 × 紫微命宮 × 太陽月亮上升，約160-220字）" },
+                  topicDeepDive: { type: "STRING", description: "問事專屬三盤聯合剖析（結合八字、紫微對應宮位四化與占星相位，約180-250字）" },
+                  easternTags: { type: "ARRAY", items: { type: "STRING" } },
+                  easternAdvice: { type: "STRING" },
+                  ziweiTags: { type: "ARRAY", items: { type: "STRING" } },
+                  ziweiAdvice: { type: "STRING" },
+                  westernTags: { type: "ARRAY", items: { type: "STRING" } },
+                  westernAdvice: { type: "STRING" }
+                },
+                required: [
+                  "personalitySynergy", "topicDeepDive",
+                  "easternTags", "easternAdvice",
+                  "ziweiTags", "ziweiAdvice",
+                  "westernTags", "westernAdvice"
+                ]
+              },
+              fiveYearTimeline: {
+                type: "ARRAY",
+                items: {
+                  type: "OBJECT",
+                  properties: {
+                    year: { type: "STRING", description: "2026, 2027, 2028, 2029, 2030" },
+                    ganzhi: { type: "STRING", description: "丙午年, 丁未年, 戊申年, 己酉年, 庚戌年" },
+                    keyword: { type: "STRING", description: "4至6字年度運勢關鍵字" },
+                    score: { type: "STRING", description: "例如：88分 · 乘勢躍升" },
+                    ziweiSiHuaShort: { type: "STRING", description: "流年四化重點短標，例如：天同化祿・廉貞化忌" },
+                    astroTransitShort: { type: "STRING", description: "占星木土行運短標" },
+                    baziDetail: { type: "STRING", description: "該年八字大運流年分析（約65-95字）" },
+                    ziweiDetail: { type: "STRING", description: "該年紫微流年命宮與四化策略（約65-95字）" },
+                    astroDetail: { type: "STRING", description: "該年占星行運與行動建議（約65-95字）" }
+                  },
+                  required: ["year", "ganzhi", "keyword", "score", "ziweiSiHuaShort", "astroTransitShort", "baziDetail", "ziweiDetail", "astroDetail"]
+                }
+              },
+              dailyFortune: {
+                type: "OBJECT",
+                properties: {
+                  signLevel: { type: "STRING", description: "例如：上上大吉籤、上吉順遂籤、中平蓄勢籤" },
+                  poemLines: { type: "STRING", description: "四句七言開運籤詩，使用換行符號分隔4行" },
+                  interpretation: { type: "STRING", description: "結合八字喜用、紫微命宮與今日星象的白話籤解（約110-150字）" },
+                  luckyColorName: { type: "STRING", description: "今日五行幸運穿搭色名稱，例如：翠玉青（木）" },
+                  luckyColorHex: { type: "STRING", description: "對應十六進位色碼，例如：#2E7D5B" },
+                  luckyTimeAndDir: { type: "STRING", description: "開運吉時與方位，例如：巳時 (09-11點) · 正東方" },
+                  decisionTip: { type: "STRING", description: "今日星象決策小提醒（約35-55字）" }
+                },
+                required: ["signLevel", "poemLines", "interpretation", "luckyColorName", "luckyColorHex", "luckyTimeAndDir", "decisionTip"]
+              }
+            },
+            required: ["calendarConversion", "bazi", "ziwei", "astrology", "reading", "fiveYearTimeline", "dailyFortune"]
+          }
+        }
+      };
+
+      try {
+        const data = await callGeminiWithRetry(payload);
+        clearInterval(timer);
+
+        appState.currentChart = {
+          gender: appState.singleGender,
+          unknownTime: appState.singleUnknownTime,
+          birthLocation: timeInfo.location,
+          extraContext,
+          calendarConversion: data.calendarConversion,
+          bazi: data.bazi,
+          ziwei: data.ziwei,
+          astrology: data.astrology
+        };
+        appState.topicReadingsCache = { [topic]: data.reading };
+        appState.fiveYearTimeline = data.fiveYearTimeline || [];
+        appState.selectedTimelineYear = appState.fiveYearTimeline[0]?.year || "2026";
+        appState.fortunePeriod = "daily";
+        appState.fortuneCache = { daily: data.dailyFortune, weekly: null };
+
+        document.getElementById("followUpHistory").innerHTML = "";
+        renderSingleDashboard(topic);
+        refreshStorageButtonsState();
+
+        document.getElementById("loadingSection").classList.add("hidden");
+        document.getElementById("singleResultSection").classList.remove("hidden");
+        document.getElementById("singleResultSection").scrollIntoView({ behavior: "smooth", block: "start" });
+      } catch (err) {
+        clearInterval(timer);
+        document.getElementById("loadingSection").classList.add("hidden");
+        showToast("三盤排盤連線暫時繁忙，請稍後再試一次。", "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove("opacity-60", "cursor-not-allowed");
+      }
+    }
+
+    // ==================== 渲染個人三盤合參儀表板 ====================
+    function renderSingleDashboard(activeTopic) {
+      const chart = appState.currentChart;
+      if (!chart) return;
+
+      // 1. 頂部雙曆總綱
+      document.getElementById("resGregorian").textContent = chart.calendarConversion.gregorian;
+      document.getElementById("resSolarTerm").textContent = `節氣：${chart.calendarConversion.solarTerm}`;
+      document.getElementById("resLunar").textContent = chart.calendarConversion.lunar;
+      document.getElementById("resGenderZodiac").textContent = `${chart.gender} · ${chart.calendarConversion.zodiac}（${chart.birthLocation}）`;
+      document.getElementById("resZiweiSummaryBadge").textContent = `${chart.ziwei.fiveElementBureau} · ${chart.ziwei.lifePalaceStars}`;
+      document.getElementById("resSunBaziBadge").textContent = `${chart.bazi.dayMaster.stemAndElement.split("（")[0]}日主 × ${chart.astrology.sunSymbol} ${chart.astrology.sunSign}`;
+      document.getElementById("resCalendarNote").textContent = `曆法與三垣定盤說明：${chart.calendarConversion.note}`;
+
+      // 2. 東方八字四柱渲染
+      const pillarOrder = [
+        { key: "hour", isDay: false },
+        { key: "day", isDay: true },
+        { key: "month", isDay: false },
+        { key: "year", isDay: false }
+      ];
+      const tenGodRow = document.getElementById("pillarTenGodRow");
+      const stemRow = document.getElementById("pillarStemRow");
+      const branchRow = document.getElementById("pillarBranchRow");
+      const hiddenRow = document.getElementById("pillarHiddenRow");
+      tenGodRow.innerHTML = ""; stemRow.innerHTML = ""; branchRow.innerHTML = ""; hiddenRow.innerHTML = "";
+
+      pillarOrder.forEach(({ key, isDay }) => {
+        const p = chart.bazi.pillars[key];
+        const sSt = ELEMENT_STYLES[p.stemElement] || ELEMENT_STYLES["無"];
+        const bSt = ELEMENT_STYLES[p.branchElement] || ELEMENT_STYLES["無"];
+        const dayBg = isDay ? "bg-vermilion-50/50" : "";
+        const isUnknownHour = key === "hour" && (chart.unknownTime || p.stemElement === "無" || p.stem.includes("未詳"));
+
+        tenGodRow.innerHTML += `<div class="py-1.5 px-1 text-[11px] font-medium ${isDay ? 'text-vermilion-700 font-bold bg-vermilion-50/75' : 'text-ink-600'}">${isUnknownHour ? '三柱推命' : escapeHtml(p.tenGod)}</div>`;
+        stemRow.innerHTML += `
+          <div class="py-2.5 px-1 flex flex-col items-center gap-1 ${dayBg}">
+            <span class="font-serif font-black ${isUnknownHour ? 'text-xs text-ink-400' : 'text-xl sm:text-2xl'}" style="${isUnknownHour ? '' : `color:${sSt.color}`}">
+              ${isUnknownHour ? '時柱待定' : escapeHtml(p.stem)}
+            </span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded-full border font-medium" style="color:${sSt.color};background:${sSt.bg};border-color:${sSt.border};">${isUnknownHour ? '待定' : sSt.label}</span>
+          </div>`;
+        branchRow.innerHTML += `
+          <div class="py-2.5 px-1 flex flex-col items-center gap-1 ${dayBg}">
+            <span class="font-serif font-black ${isUnknownHour ? 'text-xs text-ink-400' : 'text-xl sm:text-2xl'}" style="${isUnknownHour ? '' : `color:${bSt.color}`}">
+              ${isUnknownHour ? '三柱推命' : escapeHtml(p.branch)}
+            </span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded-full border font-medium" style="color:${bSt.color};background:${bSt.bg};border-color:${bSt.border};">${isUnknownHour ? '待定' : bSt.label}</span>
+          </div>`;
+        const hHtml = (!isUnknownHour && p.hiddenStems?.length)
+          ? p.hiddenStems.map(h => `<span class="block text-[10px] text-ink-600 leading-tight">${escapeHtml(h)}</span>`).join("")
+          : `<span class="text-[10px] text-ink-300">—</span>`;
+        hiddenRow.innerHTML += `<div class="py-1.5 px-1 flex flex-col items-center justify-center ${dayBg}">${hHtml}</div>`;
+      });
+
+      document.getElementById("resDayMaster").textContent = chart.bazi.dayMaster.stemAndElement;
+      document.getElementById("resDayStrength").textContent = chart.bazi.dayMaster.strength;
+      document.getElementById("resDayMasterSummary").textContent = chart.bazi.dayMaster.summary;
+
+      document.getElementById("resFavorableTags").innerHTML = (chart.bazi.dayMaster.favorableElements || []).map(el => {
+        const clean = el.replace(/[^木火土金水]/g, "") || el;
+        const st = ELEMENT_STYLES[clean] || ELEMENT_STYLES["木"];
+        return `<span class="px-1.5 py-0.5 rounded border text-[11px] font-bold" style="color:${st.color};background:${st.bg};border-color:${st.border};">${escapeHtml(el)}</span>`;
+      }).join("");
+
+      document.getElementById("resUnfavorableTags").innerHTML = (chart.bazi.dayMaster.unfavorableElements || []).map(el => {
+        const clean = el.replace(/[^木火土金水]/g, "") || el;
+        const st = ELEMENT_STYLES[clean] || ELEMENT_STYLES["水"];
+        return `<span class="px-1.5 py-0.5 rounded border text-[11px] font-medium opacity-85" style="color:${st.color};background:${st.bg};border-color:${st.border};">${escapeHtml(el)}</span>`;
+      }).join("");
+
+      const fe = chart.bazi.fiveElements;
+      const feList = [
+        { name: "木", val: fe.wood }, { name: "火", val: fe.fire },
+        { name: "土", val: fe.earth }, { name: "金", val: fe.metal }, { name: "水", val: fe.water }
+      ];
+      document.getElementById("fiveElementsBars").innerHTML = feList.map(item => {
+        const st = ELEMENT_STYLES[item.name];
+        const pct = Math.max(0, Math.min(100, Math.round(item.val || 0)));
+        return `
+          <div class="bg-white/85 rounded-lg p-1.5 border border-paper-200 text-center space-y-1">
+            <div class="text-[11px] font-bold" style="color:${st.color}">${item.name} ${pct}%</div>
+            <div class="w-full h-1.5 rounded-full bg-paper-200 overflow-hidden">
+              <div class="h-full rounded-full" style="width:${pct}%;background:${st.barBg};"></div>
+            </div>
+          </div>`;
+      }).join("");
+
+      // 3. 紫微斗數命盤精華區渲染
+      const zw = chart.ziwei;
+      document.getElementById("resZiweiBureau").textContent = zw.fiveElementBureau;
+      document.getElementById("resZiweiLifeStars").textContent = zw.lifePalaceStars;
+      document.getElementById("resZiweiLifePalacePos").textContent = zw.lifePalacePosition;
+      document.getElementById("resZiweiBodyStars").textContent = zw.bodyPalaceStars;
+      document.getElementById("resZiweiBodyPalacePos").textContent = zw.bodyPalacePosition;
+      document.getElementById("resZiweiCoreInsight").textContent = zw.coreInsight;
+
+      const sh = zw.natalSiHua;
+      const siHuaItems = [
+        { tag: "化祿", color: "bg-emerald-500/25 text-emerald-200 border-emerald-400/40", text: sh.lu },
+        { tag: "化權", color: "bg-amber-500/25 text-amber-200 border-amber-400/40", text: sh.quan },
+        { tag: "化科", color: "bg-sky-500/25 text-sky-200 border-sky-400/40", text: sh.ke },
+        { tag: "化忌", color: "bg-rose-500/25 text-rose-200 border-rose-400/40", text: sh.ji }
+      ];
+      document.getElementById("resZiweiSiHuaGrid").innerHTML = siHuaItems.map(item => `
+        <div class="flex items-center gap-1.5 bg-white/5 rounded-lg px-2 py-1.5 border border-white/10">
+          <span class="px-1.5 py-0.2 rounded text-[10px] font-bold border shrink-0 ${item.color}">${item.tag}</span>
+          <span class="text-[11px] text-slate-200 truncate" title="${escapeHtml(item.text)}">${escapeHtml(item.text)}</span>
+        </div>
+      `).join("");
+
+      renderZiweiCorePalaces(activeTopic);
+
+      const zwBanner = document.getElementById("ziweiUnknownHourBanner");
+      if (chart.unknownTime) {
+        zwBanner.classList.remove("hidden");
+      } else {
+        zwBanner.classList.add("hidden");
+      }
+
+      // 4. 西方占星命盤區渲染
+      const astro = chart.astrology;
+      document.getElementById("astroModeLabel").textContent = chart.unknownTime ? "太陽金火＋月亮傾向" : "日月升金火全盤";
+      document.getElementById("sunSymbolBox").textContent = astro.sunSymbol || "☉";
+      document.getElementById("resSunSign").textContent = astro.sunSign;
+      document.getElementById("resSunElement").textContent = astro.sunElement;
+      document.getElementById("resSunDateRange").textContent = astro.sunDateRange;
+      document.getElementById("resMoonSign").textContent = astro.moonSign;
+      document.getElementById("resMoonTrait").textContent = astro.moonTrait;
+      document.getElementById("resRisingSign").textContent = astro.risingSign;
+      document.getElementById("resRisingTrait").textContent = astro.risingTrait;
+      document.getElementById("resVenusSign").textContent = astro.venusSign;
+      document.getElementById("resVenusTrait").textContent = astro.venusTrait;
+      document.getElementById("resMarsSign").textContent = astro.marsSign;
+      document.getElementById("resMarsTrait").textContent = astro.marsTrait;
+      document.getElementById("resAstroCoreInsight").textContent = astro.coreInsight;
+
+      const ae = astro.fourElements || { fire: 25, earth: 25, air: 25, water: 25 };
+      const astroElList = [
+        { name: "火象", val: ae.fire, color: "#F87171" },
+        { name: "土象", val: ae.earth, color: "#FBBF24" },
+        { name: "風象", val: ae.air, color: "#38BDF8" },
+        { name: "水象", val: ae.water, color: "#818CF8" }
+      ];
+      document.getElementById("astroFourElementsBars").innerHTML = astroElList.map(el => {
+        const pct = Math.max(0, Math.min(100, Math.round(el.val || 0)));
+        return `
+          <div class="rounded-lg bg-white/5 border border-white/10 p-1.5 text-center space-y-1">
+            <div class="text-[11px] font-bold" style="color:${el.color}">${el.name} ${pct}%</div>
+            <div class="w-full h-1.5 rounded-full bg-white/10 overflow-hidden">
+              <div class="h-full rounded-full" style="width:${pct}%;background:${el.color};"></div>
+            </div>
+          </div>`;
+      }).join("");
+
+      // 5. 三盤交叉印證解析區塊
+      updateDashboardTopicTabsUI(activeTopic);
+      renderTriadReadingCards(appState.topicReadingsCache[activeTopic]);
+
+      // 6. 近五年大運流年時間軸（2026-2030）
+      renderFiveYearTimeline();
+
+      // 7. 個人化開運籤詩與星象提醒
+      renderPersonalFortuneCard(appState.fortuneCache[appState.fortunePeriod]);
+    }
+
+    function renderZiweiCorePalaces(activeTopic) {
+      const chart = appState.currentChart;
+      if (!chart) return;
+      const focusPalace = TOPIC_TO_ZIWEI_PALACE[activeTopic] || "命宮";
+      document.getElementById("ziweiFocusPalaceTag").textContent = `問事焦點：${focusPalace}`;
+
+      const listEl = document.getElementById("resZiweiPalacesList");
+      listEl.innerHTML = (chart.ziwei.corePalaces || []).map(p => {
+        const isFocus = p.palaceName.includes(focusPalace.replace("宮", ""));
+        return `
+          <div class="rounded-lg px-2.5 py-2 border transition flex items-center justify-between gap-2 ${
+            isFocus
+              ? 'bg-ziwei-gold/20 border-ziwei-gold shadow-sm'
+              : 'bg-white/5 border-white/10'
+          }">
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="font-serif font-bold text-xs ${isFocus ? 'text-ziwei-gold' : 'text-ziwei-light'}">${escapeHtml(p.palaceName)}</span>
+                <span class="text-xs font-bold text-white truncate">${escapeHtml(p.stars)}</span>
+              </div>
+              <p class="text-[11px] text-slate-300 truncate">${escapeHtml(p.brief)}</p>
+            </div>
+            ${isFocus ? '<span class="shrink-0 text-[10px] px-1.5 py-0.5 rounded bg-ziwei-gold text-ziwei-950 font-bold">重點宮</span>' : ''}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function updateDashboardTopicTabsUI(topic) {
+      document.getElementById("activeTopicTitle").textContent = topic;
+      document.querySelectorAll(".dash-tab").forEach(btn => {
+        if (btn.dataset.tabTopic === topic) {
+          btn.className = "dash-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border border-vermilion-600 bg-vermilion-600 text-white shadow-sm transition flex items-center gap-1.5";
+        } else {
+          btn.className = "dash-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium border border-paper-300 bg-white/85 text-ink-700 hover:border-gold-500 hover:bg-gold-100/50 transition flex items-center gap-1.5";
+        }
+      });
+    }
+
+    function renderTriadReadingCards(reading) {
+      if (!reading) return;
+      document.getElementById("readPersonalitySynergy").textContent = reading.personalitySynergy;
+      document.getElementById("readTopicDeepDive").textContent = reading.topicDeepDive;
+
+      document.getElementById("readEasternTags").innerHTML = (reading.easternTags || [])
+        .map(t => `<span class="px-2 py-0.5 rounded-full bg-vermilion-50 text-vermilion-700 border border-vermilion-600/25 text-[11px] font-medium">${escapeHtml(t)}</span>`).join("");
+      document.getElementById("readEasternAdvice").textContent = reading.easternAdvice;
+
+      document.getElementById("readZiweiTags").innerHTML = (reading.ziweiTags || [])
+        .map(t => `<span class="px-2 py-0.5 rounded-full bg-ziwei-gold/20 text-ziwei-light border border-ziwei-gold/40 text-[11px] font-medium">${escapeHtml(t)}</span>`).join("");
+      document.getElementById("readZiweiAdvice").textContent = reading.ziweiAdvice;
+
+      document.getElementById("readWesternTags").innerHTML = (reading.westernTags || [])
+        .map(t => `<span class="px-2 py-0.5 rounded-full bg-astral-gold/20 text-astral-light border border-astral-gold/40 text-[11px] font-medium">${escapeHtml(t)}</span>`).join("");
+      document.getElementById("readWesternAdvice").textContent = reading.westernAdvice;
+    }
+
+    // ==================== 免重填即時切換問事主題 ====================
+    async function switchDashboardTopic(newTopic) {
+      if (!appState.currentChart) return;
+      appState.selectedTopic = newTopic;
+      updateDashboardTopicTabsUI(newTopic);
+      renderZiweiCorePalaces(newTopic);
+
+      if (appState.topicReadingsCache[newTopic]) {
+        renderTriadReadingCards(appState.topicReadingsCache[newTopic]);
+        return;
+      }
+
+      const loadingBar = document.getElementById("topicLoadingBar");
+      const contentGrid = document.getElementById("readingContentGrid");
+      document.getElementById("switchingTopicName").textContent = newTopic;
+
+      loadingBar.classList.remove("hidden");
+      contentGrid.classList.add("hidden");
+
+      const c = appState.currentChart;
+      const summary = `
+命造：${c.gender}｜國曆 ${c.calendarConversion.gregorian}｜農曆 ${c.calendarConversion.lunar}
+八字：年[${c.bazi.pillars.year.stem}${c.bazi.pillars.year.branch}] 月[${c.bazi.pillars.month.stem}${c.bazi.pillars.month.branch}] 日[${c.bazi.pillars.day.stem}${c.bazi.pillars.day.branch}] 時[${c.bazi.pillars.hour.stem}${c.bazi.pillars.hour.branch}]，日主${c.bazi.dayMaster.stemAndElement}（${c.bazi.dayMaster.strength}），喜用：${c.bazi.dayMaster.favorableElements.join("、")}
+紫微：${c.ziwei.fiveElementBureau}，命宮[${c.ziwei.lifePalaceStars}]，四化：${c.ziwei.natalSiHua.lu}、${c.ziwei.natalSiHua.quan}、${c.ziwei.natalSiHua.ke}、${c.ziwei.natalSiHua.ji}
+占星：太陽${c.astrology.sunSign}、月亮${c.astrology.moonSign}、上升${c.astrology.risingSign}、金星${c.astrology.venusSign}、火星${c.astrology.marsSign}
+      `.trim();
+
+      const payload = {
+        contents: [{
+          parts: [{
+            text: `已排定三盤命局如下：\n${summary}\n\n現在求測者切換問事類別為：【${newTopic}】。請結合八字、紫微對應宮位四化與占星相位，撰寫針對「${newTopic}」的三盤合參深度解析。`
+          }]
+        }],
+        systemInstruction: {
+          parts: [{ text: "你是精通八字、紫微斗數與西方占星的三棲命理宗師，請以溫潤專業的繁體中文撰寫三盤合參解析。" }]
+        },
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              personalitySynergy: { type: "STRING" },
+              topicDeepDive: { type: "STRING" },
+              easternTags: { type: "ARRAY", items: { type: "STRING" } },
+              easternAdvice: { type: "STRING" },
+              ziweiTags: { type: "ARRAY", items: { type: "STRING" } },
+              ziweiAdvice: { type: "STRING" },
+              westernTags: { type: "ARRAY", items: { type: "STRING" } },
+              westernAdvice: { type: "STRING" }
+            },
+            required: ["personalitySynergy", "topicDeepDive", "easternTags", "easternAdvice", "ziweiTags", "ziweiAdvice", "westernTags", "westernAdvice"]
+          }
+        }
+      };
+
+      try {
+        const reading = await callGeminiWithRetry(payload);
+        appState.topicReadingsCache[newTopic] = reading;
+        renderTriadReadingCards(reading);
+      } catch (e) {
+        showToast(`切換「${newTopic}」解析失敗，請再點擊一次重試。`, "error");
+      } finally {
+        loadingBar.classList.add("hidden");
+        contentGrid.classList.remove("hidden");
+      }
+    }
+
+    // ==================== 近五年大運與流年時間軸（2026-2030） ====================
+    function renderFiveYearTimeline() {
+      const list = appState.fiveYearTimeline || [];
+      if (!list.length) return;
+
+      const gridEl = document.getElementById("fiveYearCardsGrid");
+      gridEl.innerHTML = list.map(item => {
+        const isSelected = String(item.year) === String(appState.selectedTimelineYear);
+        return `
+          <button
+            type="button"
+            onclick="selectTimelineYear('${escapeHtml(item.year)}')"
+            class="text-left rounded-xl p-4 border-2 transition flex flex-col justify-between space-y-2.5 cursor-pointer ${
+              isSelected
+                ? 'border-vermilion-600 bg-vermilion-50/70 shadow-md -translate-y-0.5'
+                : 'border-paper-300 bg-white/85 hover:border-gold-500'
+            }"
+          >
+            <div class="space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="font-serif font-bold text-base ${isSelected ? 'text-vermilion-700' : 'text-ink-900'}">${escapeHtml(item.year)} ${escapeHtml(item.ganzhi)}</span>
+                ${isSelected ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-vermilion-600 text-white font-bold">檢視中</span>' : ''}
+              </div>
+              <div class="font-serif font-bold text-sm text-gold-600">「${escapeHtml(item.keyword)}」</div>
+            </div>
+
+            <div class="space-y-1 pt-2 border-t border-paper-200 text-[11px]">
+              <div class="text-ziwei-900 font-medium truncate" title="${escapeHtml(item.ziweiSiHuaShort)}">✵ ${escapeHtml(item.ziweiSiHuaShort)}</div>
+              <div class="text-astral-900 font-medium truncate" title="${escapeHtml(item.astroTransitShort)}">✦ ${escapeHtml(item.astroTransitShort)}</div>
+            </div>
+          </button>
+        `;
+      }).join("");
+
+      const activeItem = list.find(i => String(i.year) === String(appState.selectedTimelineYear)) || list[0];
+      if (activeItem) {
+        document.getElementById("detailYearBadge").textContent = `${activeItem.year} ${activeItem.ganzhi}`;
+        document.getElementById("detailYearKeyword").textContent = `年度主軸：${activeItem.keyword}`;
+        document.getElementById("detailYearScore").textContent = activeItem.score;
+        document.getElementById("detailYearBazi").textContent = activeItem.baziDetail;
+        document.getElementById("detailYearZiwei").textContent = activeItem.ziweiDetail;
+        document.getElementById("detailYearAstro").textContent = activeItem.astroDetail;
+      }
+    }
+
+    function selectTimelineYear(year) {
+      appState.selectedTimelineYear = year;
+      renderFiveYearTimeline();
+    }
+
+    // ==================== 每日／每週個人化開運籤詩與星象提醒 ====================
+    function renderPersonalFortuneCard(fortune) {
+      if (!fortune) return;
+      document.getElementById("fortuneSignLevel").textContent = fortune.signLevel;
+      document.getElementById("fortuneDateLabel").textContent = appState.fortunePeriod === "daily"
+        ? "今日專屬靈籤 · 2026年11月16日"
+        : "本週星象行運週報";
+      document.getElementById("fortunePoemTitle").textContent = appState.fortunePeriod === "daily"
+        ? "— 玄樞三垣 · 今日專屬開運籤詩 —"
+        : "— 玄樞三垣 · 本週行運指引詩 —";
+      document.getElementById("fortunePoemLines").textContent = fortune.poemLines;
+      document.getElementById("fortuneInterpretation").textContent = fortune.interpretation;
+      document.getElementById("fortuneLuckyColor").textContent = fortune.luckyColorName;
+      document.getElementById("fortuneColorSwatch").style.backgroundColor = fortune.luckyColorHex || "#2E7D5B";
+      document.getElementById("fortuneLuckyTimeDir").textContent = fortune.luckyTimeAndDir;
+      document.getElementById("fortuneDecisionTip").textContent = fortune.decisionTip;
+    }
+
+    async function switchFortunePeriod(period) {
+      appState.fortunePeriod = period;
+      const dailyBtn = document.getElementById("fortuneDailyTab");
+      const weeklyBtn = document.getElementById("fortuneWeeklyTab");
+
+      if (period === "daily") {
+        dailyBtn.className = "px-3 py-1 rounded-lg font-bold bg-vermilion-600 text-white shadow-sm transition";
+        weeklyBtn.className = "px-3 py-1 rounded-lg font-medium text-ink-700 hover:text-ink-900 transition";
+      } else {
+        weeklyBtn.className = "px-3 py-1 rounded-lg font-bold bg-astral-900 text-astral-light shadow-sm transition";
+        dailyBtn.className = "px-3 py-1 rounded-lg font-medium text-ink-700 hover:text-ink-900 transition";
+      }
+
+      if (appState.fortuneCache[period]) {
+        renderPersonalFortuneCard(appState.fortuneCache[period]);
+        return;
+      }
+      await fetchNewFortuneDraw(period);
+    }
+
+    async function redrawPersonalFortune() {
+      await fetchNewFortuneDraw(appState.fortunePeriod, true);
+    }
+
+    async function fetchNewFortuneDraw(period = "daily", isRedraw = false) {
+      const c = appState.currentChart;
+      if (!c) return;
+
+      const loadingBar = document.getElementById("fortuneLoadingBar");
+      const displayCard = document.getElementById("fortuneDisplayCard");
+      loadingBar.classList.remove("hidden");
+      displayCard.classList.add("hidden");
+
+      const periodLabel = period === "daily" ? "今日專屬開運籤詩（2026年11月16日）" : "本週星象與行運週報";
+      const promptText = `請依據以下求測者的三盤核心資訊，生成一份全新的【${periodLabel}】${isRedraw ? "（求測者重新搖籤求得，請給予全新意境的四句七言籤詩與靈感提點）" : ""}：
+- 八字日主與喜用神：${c.bazi.dayMaster.stemAndElement}，喜用：${c.bazi.dayMaster.favorableElements.join("、")}
+- 紫微命宮主星：${c.ziwei.lifePalaceStars}
+- 占星太陽與上升：太陽${c.astrology.sunSign}、上升${c.astrology.risingSign}
+- 目前關注主題：${appState.selectedTopic}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: promptText }] }],
+        systemInstruction: {
+          parts: [{ text: "你是雅緻溫潤的東方籤詩與西方星象顧問，請創作押韻優美的四句七言開運籤詩（4行，每行7字），並結合八字喜用與星象給出實用開運建議。" }]
+        },
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              signLevel: { type: "STRING" },
+              poemLines: { type: "STRING" },
+              interpretation: { type: "STRING" },
+              luckyColorName: { type: "STRING" },
+              luckyColorHex: { type: "STRING" },
+              luckyTimeAndDir: { type: "STRING" },
+              decisionTip: { type: "STRING" }
+            },
+            required: ["signLevel", "poemLines", "interpretation", "luckyColorName", "luckyColorHex", "luckyTimeAndDir", "decisionTip"]
+          }
+        }
+      };
+
+      try {
+        const res = await callGeminiWithRetry(payload);
+        appState.fortuneCache[period] = res;
+        renderPersonalFortuneCard(res);
+      } catch (e) {
+        showToast("求籤感應暫時繁忙，請稍後再試。", "error");
+      } finally {
+        loadingBar.classList.add("hidden");
+        displayCard.classList.remove("hidden");
+      }
+    }
+
+    // ==================== 針對本三盤命局繼續追問 ====================
+    async function askSingleFollowUp() {
+      const inputEl = document.getElementById("followUpInput");
+      const question = inputEl.value.trim();
+      if (!question) {
+        showToast("請輸入您想進一步追問的問題", "error");
+        inputEl.focus();
+        return;
+      }
+      const c = appState.currentChart;
+      if (!c) return;
+
+      const btn = document.getElementById("followUpBtn");
+      btn.disabled = true;
+      btn.innerHTML = `<span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span><span>三盤推演中…</span>`;
+
+      const chartContext = `
+命造：${c.gender}｜國曆 ${c.calendarConversion.gregorian}｜農曆 ${c.calendarConversion.lunar}
+八字日主：${c.bazi.dayMaster.stemAndElement}（${c.bazi.dayMaster.strength}），喜用神：${c.bazi.dayMaster.favorableElements.join("、")}
+紫微命宮：${c.ziwei.lifePalaceStars}（${c.ziwei.fiveElementBureau}），四化：${c.ziwei.natalSiHua.lu}、${c.ziwei.natalSiHua.ji}
+占星：太陽${c.astrology.sunSign}、月亮${c.astrology.moonSign}、上升${c.astrology.risingSign}、金星${c.astrology.venusSign}
+當前關注主題：${appState.selectedTopic}
+      `.trim();
+
+      const payload = {
+        contents: [{
+          parts: [{ text: `已知三盤命局：\n${chartContext}\n\n求測者追問：「${question}」\n請同時結合八字、紫微與占星三個維度給予精闢、溫暖且具行動力的解答。` }]
+        }],
+        systemInstruction: {
+          parts: [{ text: "你是精通八字、紫微斗數與占星的三盤合參顧問，請用繁體中文回答追問，條理清晰。" }]
+        },
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              answer: { type: "STRING" },
+              keyTakeaways: { type: "ARRAY", items: { type: "STRING" } }
+            },
+            required: ["answer", "keyTakeaways"]
+          }
+        }
+      };
+
+      try {
+        const res = await callGeminiWithRetry(payload);
+        const historyEl = document.getElementById("followUpHistory");
+        const tipsHtml = (res.keyTakeaways || [])
+          .map(t => `<span class="inline-block px-2.5 py-1 rounded-lg bg-gold-100 text-ink-800 text-xs border border-gold-500/30">✦ ${escapeHtml(t)}</span>`).join(" ");
+
+        const div = document.createElement("div");
+        div.className = "bg-paper-100/95 rounded-xl p-4 border border-paper-300 space-y-2.5 animate-fade-up";
+        div.innerHTML = `
+          <div class="flex items-start gap-2 text-sm font-bold text-vermilion-700"><span>問：</span><span>${escapeHtml(question)}</span></div>
+          <p class="text-sm text-ink-800 leading-relaxed whitespace-pre-line pl-5 border-l-2 border-ziwei-gold">${escapeHtml(res.answer)}</p>
+          <div class="pl-5 flex flex-wrap gap-1.5 pt-1">${tipsHtml}</div>
+        `;
+        historyEl.prepend(div);
+        inputEl.value = "";
+      } catch (e) {
+        showToast("追問回覆暫時失敗，請稍後再試。", "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>請教三盤顧問</span>`;
+      }
+    }
+
+    // ==================== 雙人合盤配對主流程 ====================
+    async function startSynastryAnalysis() {
+      const nameA = document.getElementById("synNameA").value.trim() || "甲方";
+      const genderA = document.getElementById("synGenderA").value;
+      const dateA = document.getElementById("synDateA").value.trim();
+      const timeA = document.getElementById("synTimeA").value;
+
+      const nameB = document.getElementById("synNameB").value.trim() || "乙方";
+      const genderB = document.getElementById("synGenderB").value;
+      const dateB = document.getElementById("synDateB").value.trim();
+      const timeB = document.getElementById("synTimeB").value;
+      const extraNote = document.getElementById("synExtraNote").value.trim();
+
+      if (!dateA || !dateB) {
+        showToast("請完整填寫甲方與乙方的出生年月日（國農曆皆可）。", "error");
+        return;
+      }
+
+      const btn = document.getElementById("synastrySubmitBtn");
+      btn.disabled = true;
+      btn.classList.add("opacity-60");
+
+      document.getElementById("loadingSection").classList.remove("hidden");
+      document.getElementById("singleResultSection").classList.add("hidden");
+      document.getElementById("synastryResultSection").classList.add("hidden");
+      document.getElementById("loadingTitle").textContent = "正在進行雙人「八字 × 紫微 × 星座」三盤交叉合參…";
+      document.getElementById("loadingSection").scrollIntoView({ behavior: "smooth", block: "center" });
+
+      const payload = {
+        contents: [{
+          parts: [{
+            text: `請為以下兩位命造進行【${appState.synastryRelation}】三盤合盤配對推演：
+【${nameA}】：${genderA}｜生日：${dateA}｜出生時辰：${timeA}
+【${nameB}】：${genderB}｜生日：${dateB}｜出生時辰：${timeB}
+${extraNote ? `合盤特別關注重點：${extraNote}` : ""}
+
+請自動換算雙方國農曆、排出八字日主喜用、紫微命宮與夫妻/官祿宮主星、占星太陽/月亮/金星星座，並評估四維契合度與三盤深度合參解析。`
+          }]
+        }],
+        systemInstruction: {
+          parts: [{ text: "你是精通八字合婚合夥、紫微宮位飛星與占星比較盤（Synastry）的三棲命理顧問，請以客觀、溫暖、建設性的繁體中文進行雙人合參。" }]
+        },
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "OBJECT",
+            properties: {
+              personA: {
+                type: "OBJECT",
+                properties: {
+                  convertedDate: { type: "STRING" },
+                  baziCore: { type: "STRING", description: "日主與喜用神，例如：丙火日主・喜木水" },
+                  ziweiCore: { type: "STRING", description: "命宮與對應宮位主星" },
+                  astroCore: { type: "STRING", description: "太陽、月亮、金星星座" },
+                  briefTrait: { type: "STRING", description: "在關係中的核心特質（約40-60字）" }
+                },
+                required: ["convertedDate", "baziCore", "ziweiCore", "astroCore", "briefTrait"]
+              },
+              personB: {
+                type: "OBJECT",
+                properties: {
+                  convertedDate: { type: "STRING" },
+                  baziCore: { type: "STRING" },
+                  ziweiCore: { type: "STRING" },
+                  astroCore: { type: "STRING" },
+                  briefTrait: { type: "STRING" }
+                },
+                required: ["convertedDate", "baziCore", "ziweiCore", "astroCore", "briefTrait"]
+              },
+              overallHeadline: { type: "STRING", description: "整體契合度總評短標，例如：綜合契合 88% · 水火既濟互補型" },
+              scores: {
+                type: "OBJECT",
+                properties: {
+                  soulResonance: { type: "NUMBER", description: "靈魂默契度 (0-100)" },
+                  valueAlignment: { type: "NUMBER", description: "價值觀共鳴 (0-100)" },
+                  practicalComplement: { type: "NUMBER", description: "現實五行互補 (0-100)" },
+                  communicationSmoothness: { type: "NUMBER", description: "溝通順暢度 (0-100)" }
+                },
+                required: ["soulResonance", "valueAlignment", "practicalComplement", "communicationSmoothness"]
+              },
+              baziSynastry: { type: "STRING", description: "八字五行生剋與干支合沖解析（約140-180字）" },
+              ziweiSynastry: { type: "STRING", description: "紫微宮位飛星與四化互動解析（約140-180字）" },
+              astroSynastry: { type: "STRING", description: "占星日月金火相位解析（約140-180字）" },
+              actionAdvice: { type: "STRING", description: "專屬相處磨合與關係升溫行動建議（約150-200字）" }
+            },
+            required: ["personA", "personB", "overallHeadline", "scores", "baziSynastry", "ziweiSynastry", "astroSynastry", "actionAdvice"]
+          }
+        }
+      };
+
+      try {
+        const res = await callGeminiWithRetry(payload);
+        appState.currentSynastryResult = {
+          relation: appState.synastryRelation,
+          nameA, nameB,
+          data: res
+        };
+
+        document.getElementById("synResultRelTitle").textContent = appState.synastryRelation;
+        document.getElementById("synCardNameA").textContent = `甲方：${nameA}（${genderA}）`;
+        document.getElementById("synCardCalA").textContent = res.personA.convertedDate;
+        document.getElementById("synCardBaziA").textContent = res.personA.baziCore;
+        document.getElementById("synCardZiweiA").textContent = res.personA.ziweiCore;
+        document.getElementById("synCardAstroA").textContent = res.personA.astroCore;
+        document.getElementById("synCardSummaryA").textContent = res.personA.briefTrait;
+
+        document.getElementById("synCardNameB").textContent = `乙方：${nameB}（${genderB}）`;
+        document.getElementById("synCardCalB").textContent = res.personB.convertedDate;
+        document.getElementById("synCardBaziB").textContent = res.personB.baziCore;
+        document.getElementById("synCardZiweiB").textContent = res.personB.ziweiCore;
+        document.getElementById("synCardAstroB").textContent = res.personB.astroCore;
+        document.getElementById("synCardSummaryB").textContent = res.personB.briefTrait;
+
+        document.getElementById("synOverallHeadline").textContent = res.overallHeadline;
+        const sc = res.scores;
+        const scoreItems = [
+          { label: "靈魂默契度", val: sc.soulResonance, color: "#B83B2A" },
+          { label: "價值觀共鳴", val: sc.valueAlignment, color: "#533470" },
+          { label: "現實五行互補", val: sc.practicalComplement, color: "#C59B38" },
+          { label: "溝通順暢度", val: sc.communicationSmoothness, color: "#255C8A" }
+        ];
+        document.getElementById("synScoresGrid").innerHTML = scoreItems.map(s => {
+          const pct = Math.max(0, Math.min(100, Math.round(s.val || 0)));
+          return `
+            <div class="bg-white rounded-xl p-3.5 border border-paper-200 space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-ink-800">${s.label}</span>
+                <span class="font-serif font-bold text-sm" style="color:${s.color}">${pct}%</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-paper-200 overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-700" style="width:${pct}%;background:${s.color};"></div>
+              </div>
+            </div>`;
+        }).join("");
+
+        document.getElementById("synBaziDeep").textContent = res.baziSynastry;
+        document.getElementById("synZiweiDeep").textContent = res.ziweiSynastry;
+        document.getElementById("synAstroDeep").textContent = res.astroSynastry;
+        document.getElementById("synActionAdvice").textContent = res.actionAdvice;
+
+        document.getElementById("loadingSection").classList.add("hidden");
+        document.getElementById("synastryResultSection").classList.remove("hidden");
+        document.getElementById("synastryResultSection").scrollIntoView({ behavior: "smooth", block: "start" });
+      } catch (e) {
+        document.getElementById("loadingSection").classList.add("hidden");
+        showToast("雙人合盤推演連線暫時繁忙，請稍後再試。", "error");
+      } finally {
+        btn.disabled = false;
+        btn.classList.remove("opacity-60");
+      }
+    }
+
+    // ==================== 複製報告至剪貼簿 ====================
+    function copyTextToClipboard(text, successMsg) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showToast(successMsg);
+      } catch (e) {
+        showToast("複製失敗，請手動選取文字複製。", "error");
+      } finally {
+        document.body.removeChild(ta);
+      }
+    }
+
+    function copySingleFullReport() {
+      const c = appState.currentChart;
+      const r = appState.topicReadingsCache[appState.selectedTopic];
+      if (!c || !r) return;
+
+      const text = [
+        `【玄樞三垣｜八字 × 紫微 × 星座 三盤合參報告】`,
+        `命造：${c.gender}（${c.calendarConversion.zodiac}｜${c.birthLocation}）`,
+        `國曆：${c.calendarConversion.gregorian}（${c.calendarConversion.solarTerm}）`,
+        `農曆：${c.calendarConversion.lunar}`,
+        `--------------------------------`,
+        `【一、東方子平八字】`,
+        `四柱：年[${c.bazi.pillars.year.stem}${c.bazi.pillars.year.branch}] 月[${c.bazi.pillars.month.stem}${c.bazi.pillars.month.branch}] 日[${c.bazi.pillars.day.stem}${c.bazi.pillars.day.branch}] 時[${c.bazi.pillars.hour.stem}${c.bazi.pillars.hour.branch}]`,
+        `日主：${c.bazi.dayMaster.stemAndElement}（${c.bazi.dayMaster.strength}）｜喜用：${c.bazi.dayMaster.favorableElements.join("、")}`,
+        `【二、紫微斗數星垣】`,
+        `局數：${c.ziwei.fiveElementBureau}｜命宮：${c.ziwei.lifePalaceStars}｜身宮：${c.ziwei.bodyPalaceStars}`,
+        `生年四化：${c.ziwei.natalSiHua.lu}、${c.ziwei.natalSiHua.quan}、${c.ziwei.natalSiHua.ke}、${c.ziwei.natalSiHua.ji}`,
+        `【三、西方占星命盤】`,
+        `太陽：${c.astrology.sunSign}｜月亮：${c.astrology.moonSign}｜上升：${c.astrology.risingSign}｜金星：${c.astrology.venusSign}｜火星：${c.astrology.marsSign}`,
+        `--------------------------------`,
+        `【問事主題：${appState.selectedTopic}】`,
+        `壹、性格共鳴與內外反差：\n${r.personalitySynergy}\n`,
+        `貳、三盤聯合深度剖析：\n${r.topicDeepDive}\n`,
+        `參、三方開運錦囊：\n・東方八字：${r.easternAdvice}\n・紫微心法：${r.ziweiAdvice}\n・西方星象：${r.westernAdvice}`
+      ].join("\n");
+
+      copyTextToClipboard(text, "已將完整「八字 × 紫微 × 星座」三盤報告複製到剪貼簿！");
+    }
+
+    function copySynastryReport() {
+      const s = appState.currentSynastryResult;
+      if (!s) return;
+      const d = s.data;
+      const text = [
+        `【玄樞三垣｜雙人三盤合盤報告（${s.relation}）】`,
+        `甲方（${s.nameA}）：${d.personA.convertedDate}｜${d.personA.baziCore}｜${d.personA.ziweiCore}｜${d.personA.astroCore}`,
+        `乙方（${s.nameB}）：${d.personB.convertedDate}｜${d.personB.baziCore}｜${d.personB.ziweiCore}｜${d.personB.astroCore}`,
+        `總評：${d.overallHeadline}`,
+        `--------------------------------`,
+        `☯ 八字合參：\n${d.baziSynastry}\n`,
+        `✵ 紫微合參：\n${d.ziweiSynastry}\n`,
+        `✦ 占星合參：\n${d.astroSynastry}\n`,
+        `🧭 相處磨合建議：\n${d.actionAdvice}`
+      ].join("\n");
+
+      copyTextToClipboard(text, "已將雙人三盤合盤報告複製到剪貼簿！");
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
