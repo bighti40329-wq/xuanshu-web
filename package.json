@@ -1,0 +1,1 @@
+{"name":"xuanshu-bazi-ai","version":"1.0.0","private":true,"type":"module","scripts":{"start":"node server.mjs","check":"node --check server.mjs"},"dependencies":{"@google/genai":"latest","express":"^5.1.0","helmet":"^8.1.0"}}
