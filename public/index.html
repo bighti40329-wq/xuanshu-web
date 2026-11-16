@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>玄樞三垣｜本地排盤與 AI 解析</title>
+
+  <style>
+    :root {
+      --ink: #221a2a;
+      --purple: #311642;
+      --gold: #c89b3c;
+      --paper: #fbf7ee;
+      --red: #9a4d45;
+      --green: #18704b;
+      --border: #e2d3ba;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family:
+        "Microsoft JhengHei",
+        "Noto Sans TC",
+        sans-serif;
+    }
+
+    header {
+      color: white;
+      padding: 20px;
+      background:
+        linear-gradient(
+          135deg,
+          #21102f,
+          #482456
+        );
+    }
+
+    header h1 {
+      margin: 0 0 5px;
+      font-size: clamp(23px, 4vw, 35px);
+    }
+
+    main {
+      max-width: 1050px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .card {
+      margin-bottom: 16px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: white;
+      box-shadow:
+        0 8px 24px rgba(59, 33, 64, 0.07);
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #675d69;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      width: 100%;
+      min-height: 44px;
+      margin-top: 5px;
+      padding: 10px;
+      border: 1px solid #d9ccb8;
+      border-radius: 10px;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 700;
+      background: white;
+    }
+
+    button:hover:not(:disabled) {
+      border-color: var(--purple);
+    }
+
+    button.primary {
+      color: white;
+      border: 0;
+      background:
+        linear-gradient(
+          135deg,
+          var(--red),
+          var(--purple)
+        );
+    }
+
+    button.local {
+      border-color: var(--gold);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    .status.ok {
+      color: var(--green);
+    }
+
+    .status.error {
+      color: #b42318;
+    }
+
+    .notice {
+      margin-top: 13px;
+      padding: 12px;
+      border-left: 5px solid var(--gold);
+      border-radius: 8px;
+      background: #fff4d9;
+    }
+
+    .result {
+      overflow: auto;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #fcfaf5;
+      white-space: pre-wrap;
+      line-height: 1.7;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: var(--purple);
+      background: #efe7f2;
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        padding: 10px;
+      }
+
+      .form-grid,
+      .chart-grid,
+      .actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>玄樞三垣</h1>
+
+    <div>
+      八字 × 紫微 × 西洋占星
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>出生資料</h2>
+
+      <div class="form-grid">
+        <label>
+          出生日期
+
+          <input
+            id="birthDate"
+            type="date"
+          >
+        </label>
+
+        <label>
+          出生時間
+
+          <input
+            id="birthTime"
+            type="time"
+          >
+        </label>
+
+        <label>
+          性別
+
+          <select id="gender">
+            <option value="不提供">
+              不提供
+            </option>
+
+            <option value="男">
+              男
+            </option>
+
+            <option value="女">
+              女
+            </option>
+          </select>
+        </label>
+
+        <label>
+          出生地
+
+          <select id="place">
+            <option value="23.58,120.55">
+              嘉義地區
+            </option>
+
+            <option value="25.04,121.56">
+              台北
+            </option>
+
+            <option value="24.15,120.68">
+              台中
+            </option>
+
+            <option value="22.63,120.30">
+              高雄
+            </option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>選擇要計算的命盤</h2>
+
+      <div class="chart-grid">
+        <div>
+          <button
+            id="baziButton"
+            class="local"
+            type="button"
+          >
+            測八字
+          </button>
+
+          <div
+            id="baziStatus"
+            class="status"
+          >
+            尚未計算
+          </div>
+        </div>
+
+        <div>
+          <button
+            id="ziweiButton"
+            class="local"
+            type="button"
+          >
+            測紫微
+          </button>
+
+          <div
+            id="ziweiStatus"
+            class="status"
+          >
+            尚未計算
+          </div>
+        </div>
+
+        <div>
+          <button
+            id="astrologyButton"
+            class="local"
+            type="button"
+          >
+            測西洋星盤
+          </button>
+
+          <div
+            id="astrologyStatus"
+            class="status"
+          >
+            尚未計算
+          </div>
+        </div>
+      </div>
+
+      <div id="chartResults"></div>
+    </section>
+
+    <section class="card">
+      <h2>解析</h2>
+
+      <label>
+        想詢問的問題
+
+        <textarea
+          id="question"
+          placeholder="例如：未來兩年的職涯發展重點"
+        ></textarea>
+      </label>
+
+      <div class="actions">
+        <button
+          id="localAnalysisButton"
+          type="button"
+        >
+          本地基礎解析
+        </button>
+
+        <button
+          id="aiAnalysisButton"
+          class="primary"
+          type="button"
+        >
+          AI 深度解析
+        </button>
+      </div>
+
+      <div class="notice">
+        三種排盤與本地解析不使用 Gemini 額度。
+        AI 深度解析每次只呼叫一次 Gemini。
+        額度用完或 AI 連線失敗時，會自動改用本地解析。
+      </div>
+
+      <div id="analysisResult"></div>
+    </section>
+  </main>
+
+  <script>
+    const chartState = {};
+
+    const elements = {
+      birthDate:
+        document.getElementById("birthDate"),
+
+      birthTime:
+        document.getElementById("birthTime"),
+
+      gender:
+        document.getElementById("gender"),
+
+      place:
+        document.getElementById("place"),
+
+      question:
+        document.getElementById("question"),
+
+      chartResults:
+        document.getElementById(
+          "chartResults"
+        ),
+
+      analysisResult:
+        document.getElementById(
+          "analysisResult"
+        ),
+
+      baziButton:
+        document.getElementById(
+          "baziButton"
+        ),
+
+      ziweiButton:
+        document.getElementById(
+          "ziweiButton"
+        ),
+
+      astrologyButton:
+        document.getElementById(
+          "astrologyButton"
+        ),
+
+      localAnalysisButton:
+        document.getElementById(
+          "localAnalysisButton"
+        ),
+
+      aiAnalysisButton:
+        document.getElementById(
+          "aiAnalysisButton"
+        )
+    };
+
+    function escapeHtml(value) {
+      return String(value).replace(
+        /[&<>"]/g,
+        character => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;"
+        })[character]
+      );
+    }
+
+    function getBirthInput() {
+      if (!elements.birthDate.value) {
+        throw new Error("請選擇出生日期");
+      }
+
+      if (!elements.birthTime.value) {
+        throw new Error("請選擇出生時間");
+      }
+
+      const [
+        year,
+        month,
+        day
+      ] = elements.birthDate.value
+        .split("-")
+        .map(Number);
+
+      const [
+        hour,
+        minute
+      ] = elements.birthTime.value
+        .split(":")
+        .map(Number);
+
+      const [
+        latitude,
+        longitude
+      ] = elements.place.value
+        .split(",")
+        .map(Number);
+
+      return {
+        birth: {
+          year,
+          month,
+          day,
+          hour,
+          minute,
+          gender: elements.gender.value,
+          timeIndex:
+            Math.floor((hour + 1) / 2) % 12,
+          latitude,
+          longitude,
+          timeZone: "Asia/Taipei"
+        }
+      };
+    }
+
+    async function postJson(url, body) {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+
+      const result = await response
+        .json()
+        .catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          result.message ||
+          `HTTP ${response.status}`
+        );
+      }
+
+      return result.data;
+    }
+
+    function getTypeName(type) {
+      const names = {
+        bazi: "八字",
+        ziwei: "紫微",
+        astrology: "西洋星盤"
+      };
+
+      return names[type] || type;
+    }
+
+    function renderCharts() {
+      elements.chartResults.innerHTML =
+        Object.entries(chartState)
+          .map(([type, data]) => `
+            <div class="result">
+              <span class="badge">
+                ${getTypeName(type)}
+              </span>
+
+              <br><br>
+
+              ${escapeHtml(
+                JSON.stringify(
+                  data,
+                  null,
+                  2
+                )
+              )}
+            </div>
+          `)
+          .join("");
+    }
+
+    async function calculateChart(type) {
+      const config = {
+        bazi: {
+          button: elements.baziButton,
+          status:
+            document.getElementById(
+              "baziStatus"
+            ),
+          url: "/api/chart/bazi"
+        },
+
+        ziwei: {
+          button: elements.ziweiButton,
+          status:
+            document.getElementById(
+              "ziweiStatus"
+            ),
+          url: "/api/chart/ziwei"
+        },
+
+        astrology: {
+          button:
+            elements.astrologyButton,
+          status:
+            document.getElementById(
+              "astrologyStatus"
+            ),
+          url:
+            "/api/chart/astrology"
+        }
+      }[type];
+
+      config.button.disabled = true;
+      config.status.textContent =
+        "計算中…";
+
+      config.status.className =
+        "status";
+
+      try {
+        const birthInput =
+          getBirthInput();
+
+        chartState[type] =
+          await postJson(
+            config.url,
+            birthInput
+          );
+
+        config.status.textContent =
+          "✓ 已完成";
+
+        config.status.className =
+          "status ok";
+
+        renderCharts();
+      } catch (error) {
+        config.status.textContent =
+          `✕ ${error.message}`;
+
+        config.status.className =
+          "status error";
+      } finally {
+        config.button.disabled = false;
+      }
+    }
+
+    function renderAnalysis(
+      data,
+      additionalMessage = ""
+    ) {
+      const modeName =
+        data.mode === "ai"
+          ? "Gemini AI"
+          : "本地規則";
+
+      elements.analysisResult.innerHTML = `
+        <div class="result">
+          <span class="badge">
+            ${modeName}
+          </span>
+
+          <br><br>
+
+          <strong>
+            ${escapeHtml(
+              data.title || "解析結果"
+            )}
+          </strong>
+
+          <br><br>
+
+          ${escapeHtml(
+            data.summary || ""
+          )}
+
+          <br><br>
+
+          <strong>建議</strong>
+
+          <br>
+
+          ${escapeHtml(
+            data.advice || ""
+          )}
+
+          ${
+            additionalMessage
+              ? `
+                <br><br>
+                ${escapeHtml(
+                  additionalMessage
+                )}
+              `
+              : ""
+          }
+        </div>
+      `;
+    }
+
+    async function runAnalysis(useAI) {
+      if (!Object.keys(chartState).length) {
+        alert(
+          "請先完成至少一種排盤"
+        );
+
+        return;
+      }
+
+      const button = useAI
+        ? elements.aiAnalysisButton
+        : elements.localAnalysisButton;
+
+      const originalText =
+        button.textContent;
+
+      button.disabled = true;
+
+      button.textContent = useAI
+        ? "AI 解析中，請勿重複點擊…"
+        : "本地解析中…";
+
+      const requestBody = {
+        charts: chartState,
+        question:
+          elements.question.value.trim()
+      };
+
+      try {
+        const response = await fetch(
+          useAI
+            ? "/api/ai/analyze"
+            : "/api/local/interpret",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+            body:
+              JSON.stringify(requestBody)
+          }
+        );
+
+        const result = await response
+          .json()
+          .catch(() => ({}));
+
+        if (response.ok) {
+          renderAnalysis(result.data);
+          return;
+        }
+
+        if (result.fallback) {
+          renderAnalysis(
+            result.fallback,
+            result.message
+          );
+
+          return;
+        }
+
+        throw new Error(
+          result.message ||
+          `HTTP ${response.status}`
+        );
+      } catch (error) {
+        try {
+          const fallback =
+            await postJson(
+              "/api/local/interpret",
+              requestBody
+            );
+
+          renderAnalysis(
+            fallback,
+            "AI 無法使用，已自動切換為本地解析。"
+          );
+        } catch {
+          alert(error.message);
+        }
+      } finally {
+        button.disabled = false;
+        button.textContent =
+          originalText;
+      }
+    }
+
+    elements.baziButton.addEventListener(
+      "click",
+      () => calculateChart("bazi")
+    );
+
+    elements.ziweiButton.addEventListener(
+      "click",
+      () => calculateChart("ziwei")
+    );
+
+    elements.astrologyButton.addEventListener(
+      "click",
+      () =>
+        calculateChart("astrology")
+    );
+
+    elements.localAnalysisButton
+      .addEventListener(
+        "click",
+        () => runAnalysis(false)
+      );
+
+    elements.aiAnalysisButton
+      .addEventListener(
+        "click",
+        () => runAnalysis(true)
+      );
+  </script>
+</body>
+</html>
